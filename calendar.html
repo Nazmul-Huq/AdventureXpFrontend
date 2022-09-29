@@ -21,6 +21,7 @@
         <div id="nav"></div>
     </div>
     <div style="flex-grow: 1">
+        <input id="filter" placeholder="Søg her"><a href="#" id="clear">clear</a>
         <div id="dp"></div>
     </div>
 </div>
@@ -29,6 +30,7 @@
 <script src="js/daypilot-all.min.js"></script>
 
 <script>
+
 
     const nav = new DayPilot.Navigator("nav");
     nav.showMonths = 3;
@@ -44,6 +46,21 @@
 
 
     const dp = new DayPilot.Calendar("dp");
+    var elements = {
+    filter: document.querySelector("#filter"),
+    clear: document.querySelector("#clear"),
+};
+
+elements.filter.addEventListener("keyup", function() {
+    var query = this.value;
+    dp.events.filter(query); // see dp.onEventFilter
+});
+
+elements.clear.addEventListener("click", function(ev) {
+    ev.preventDefault();
+    elements.filter.value = "";
+    dp.events.filter(null);
+});
     dp.viewType = "Week";
     dp.locale = "da-dk";
     dp.onTimeRangeSelected = function (args) {
@@ -84,9 +101,18 @@
         });
     };
     dp.onEventClick = function (args) {
-        var form = [
-            { name: "Skriv opdatering til booking", id: "text" }
-        ];
+        const types = [
+  {name: "Go-kart", id: "Go-kart"},
+  {name: "Sumo", id: "Sumo"},
+  {name: "Minigolf", id: "Minigolf"},
+  {name: "Paintball", id: "Paintball"}
+];
+
+const form = [
+  {name: "Opdater booking", id: "text"},
+  {name: "Vælg aktivitet", id: "type", type: "select", options: types},
+  {name: "Medarbejder", id: "employee"}
+];
         var data = args.e.data;
         DayPilot.Modal.form(form, data).then(function(modal) {
             if (modal.canceled) {
@@ -140,6 +166,21 @@
             { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;"}
         ];
     };
+    dp.onEventFilter = function(args) {
+    var events = dp.events.list.filter(function(data) {
+        var start = new DayPilot.Date(data.start);
+        var end = new DayPilot.Date(data.end);
+        return data.resource === args.e.resource() && DayPilot.Util.overlaps(start, end, args.e.start(), args.e.end());
+    });
+
+    var textFound = events.some(function(e) {
+        return e.text.toUpperCase().indexOf(args.filter.toUpperCase()) > -1;
+    });
+
+    if (!textFound) {
+        args.visible = false;
+    }
+};
 
     dp.contextMenu = new DayPilot.Menu({
         items: [
@@ -175,6 +216,7 @@
     dp.events.load("http://localhost:8080/api/events");
 
 
+
     function updateColor(e, color) {
         var params = {
             id: e.id(),
@@ -190,6 +232,8 @@
             }
         });
     }
+
+
 
 </script>
 
