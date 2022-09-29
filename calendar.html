@@ -11,8 +11,8 @@
             crossorigin="anonymous"
     />
 
-    <link href="style/main.css" rel="stylesheet" type="text/css">
-    <link href="style/icons/style.css" rel="stylesheet" type="text/css">
+    <link href="style/calendar/main.css" rel="stylesheet" type="text/css">
+    <link href="style/calendar/icons/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -38,7 +38,7 @@
     nav.onTimeRangeSelected = (args) => {
         dp.startDate = args.day;
         dp.update();
-        dp.events.load("/api/events");
+        dp.events.load("http://localhost:8080/api/events");
     };
     nav.init();
 
@@ -59,7 +59,7 @@
                 text: modal.result
             };
             DayPilot.Http.ajax({
-                url: '/api/events/create',
+                url: 'http://localhost:8080/api/events/create',
                 data: params,
                 success: function (ajax) {
                     var data = ajax.data;
@@ -76,7 +76,7 @@
             end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: '/api/events/move',
+            url: 'http://localhost:8080/api/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Booking rykket");
@@ -93,7 +93,7 @@
                 return;
             }
             DayPilot.Http.ajax({
-                url: '/api/events/update',
+                url: 'http://localhost:8080/api/events/update',
                 data: modal.result,
                 success: function (ajax) {
                     dp.events.update(ajax.data);
@@ -112,7 +112,7 @@
         // API call to delete the event on the server side
         // ...
         DayPilot.Http.ajax({
-            url: '/api/events/delete',
+            url: 'http://localhost:8080/api/events/delete',
             data: args.e.data,
             success: function (ajax) {
                 dp.message("Booking slettet");
@@ -127,7 +127,7 @@
             end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: '/api/events/move',
+            url: 'http://localhost:8080/api/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Bookingtid rykket");
@@ -172,7 +172,7 @@
     });
     dp.init();
 
-    dp.events.load("/api/events");
+    dp.events.load("http://localhost:8080/api/events");
 
 
     function updateColor(e, color) {
@@ -181,7 +181,7 @@
             color: color
         };
         DayPilot.Http.ajax({
-            url: '/api/events/setColor',
+            url: 'http://localhost:8080/api/events/setColor',
             data: params,
             success: function (ajax) {
                 e.data.color = color;
