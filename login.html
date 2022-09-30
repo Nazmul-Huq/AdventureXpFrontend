@@ -33,7 +33,7 @@
 </head>
 <body>
     <div class="header"> <!--Headeren, kan fjernes eller redigeres-->
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom bg-info">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom bg-dark">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
               <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
             </a>
@@ -48,13 +48,13 @@
   
             <h1 class="h-3 mb-3 fw-normal" >Login</h1>
   
-            <label for="inputEmail" class="sr-only"></label>
+            <label for="inputUsername" class="sr-only"></label>
   
             <input
   
-              type="Brugernavn"
+              type="text"
   
-              id="name"
+              id="inputUsername"
   
               placeholder="Brugernavn"
   
@@ -69,27 +69,25 @@
   
             <input
   
-              type="password"
+              type="text"
   
               id="inputPassword"
   
               placeholder="Password"
   
-              required
-
-            ></input>
+              required 
+              ></input>
             <br>
             <br>
             <br>
-
-            <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+            <button class="btn btn-small btn-dark" type="submit">Login</button>
   
           </div>
-
       </div>    
 
+      
     
       
-
+      <script src="js/popup.js"></script>
 </body>
 </html>
