@@ -9,7 +9,12 @@
             rel="stylesheet"
             integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
             crossorigin="anonymous"
+            
     />
+    <script
+			  src="https://code.jquery.com/jquery-3.6.1.min.js"
+			  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+			  crossorigin="anonymous"></script>
 
     <link href="style/calendar/main.css" rel="stylesheet" type="text/css">
     <link href="style/calendar/icons/style.css" rel="stylesheet" type="text/css">
@@ -107,12 +112,14 @@ elements.clear.addEventListener("click", function(ev) {
   {name: "Minigolf", id: "Minigolf"},
   {name: "Paintball", id: "Paintball"}
 ];
-
 const form = [
   {name: "Opdater booking", id: "text"},
   {name: "Vælg aktivitet", id: "type", type: "select", options: types},
-  {name: "Medarbejder", id: "employee"}
+  {name: "Medarbejder", id: "employee"},
+    {html: "<p>Indsæt beskrivelse her</p>"}
+
 ];
+
         var data = args.e.data;
         DayPilot.Modal.form(form, data).then(function(modal) {
             if (modal.canceled) {
