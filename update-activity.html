@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header"></div>
+  <div class="body-div">
+    <form style="margin-left:25%; width: 50%; font-weight: bold;">
+        <div class="mb-3">
+            <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="activitydescription" class="form-label">Aktivitetsbeskrivelse:</label>
+            <input type="text" class="form-control" id="activitydescription" name="activitydescription">
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label">Pris:</label>
+            <input type="number" class="form-control" id="price" name="price">
+          </div>
+
+          <br>
+          <div class="mb-3">
+          <h4 class="text-decoration-underline">Krav til aktivitet</h4>
+         </div>
+         <br>
+
+          <div class="mb-3">
+            <label for="minattendants" class="form-label">Minimum deltagere:</label>
+            <input type="number" class="form-control" id="minattendants" name="minattendants">
+          </div>
+          <div class="mb-3">
+            <label for="maxattendants" class="form-label">Maximum deltagere:</label>
+            <input type="number" class="form-control" id="maxattendants" name="maxattendants">
+          </div>
+          <div class="mb-3">
+            <label for="alcohollevel" class="form-label">Alkohollevel:</label>
+            <input type="number" class="form-control" id="alcohollevel" name="alcohollevel">
+          </div>
+          <div class="mb-3">
+            <label for="maxweight" class="form-label">Maximum vægt:</label>
+            <input type="number" class="form-control" id="maxweight" name="maxweight">
+          </div>
+          <div class="mb-3">
+            <label for="minheight" class="form-label">Minimum højde:</label>
+            <input type="number" class="form-control" id="minheight" name="minheight">
+          </div>
+          <div class="mb-3">
+            <label for="maxheight" class="form-label">Maximum højde:</label>
+            <input type="number" class="form-control" id="maxheight" name="maxheight">
+          </div>
+          <div class="mb-3">
+            <label for="minage" class="form-label">Minimum alder:</label>
+            <input type="number" class="form-control" id="minage" name="minage">
+          </div>
+          <div class="mb-3">
+            <label for="maxage" class="form-label">Maximum alder:</label>
+            <input type="number" class="form-control" id="maxage" name="maxage">
+          </div>
+          
+          <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+          <button type="submit" class="btn btn-primary" style="width:50% ;">Gem</button>
+          <p id="delete"></p>
+          <button onclick="myFunction()" type="submit" class="btn btn-danger" style="width:50% ;">Slet</button>
+
+          <script>
+            function myFunction() {
+              var txt;
+              if (confirm("Er du sikker på du vil slette denne aktivitet?")) {
+                txt = "You pressed OK!";
+              } else {
+                txt = "You pressed Cancel!";
+              }
+              document.getElementById("delete").innerHTML = txt;
+            }
+            </script>
+
+          </div>
+
+          <div class="text-center d-grid gap-1 col-3 mx-auto">
+            <button type="submit" class="btn">Annuller</button>
+            </div>
+        </form>
+    
+  </div>
+
+  <div id="footer"></div>
+
+
+</body>
+</html>
