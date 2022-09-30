@@ -19,15 +19,15 @@
     <form style="margin-left:25%; width: 50%; font-weight: bold;">
         <div class="mb-3">
             <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
-            <input type="text" class="form-control" id="name" name="name">
+            <input required type="text" class="form-control" id="name" name="name">
           </div>
           <div class="mb-3">
             <label for="activitydescription" class="form-label">Aktivitetsbeskrivelse:</label>
-            <input type="text" class="form-control" id="activitydescription" name="activitydescription">
+            <input required type="text" class="form-control" id="activitydescription" name="activitydescription">
           </div>
           <div class="mb-3">
             <label for="price" class="form-label">Pris:</label>
-            <input type="number" class="form-control" id="price" name="price">
+            <input required type="number" class="form-control" id="price" name="price">
           </div>
 
           <br>
@@ -38,35 +38,35 @@
 
           <div class="mb-3">
             <label for="minattendants" class="form-label">Minimum deltagere:</label>
-            <input type="number" class="form-control" id="minattendants" name="minattendants">
+            <input required type="number" class="form-control" id="minattendants" name="minattendants">
           </div>
           <div class="mb-3">
             <label for="maxattendants" class="form-label">Maximum deltagere:</label>
-            <input type="number" class="form-control" id="maxattendants" name="maxattendants">
+            <input required type="number" class="form-control" id="maxattendants" name="maxattendants">
           </div>
           <div class="mb-3">
             <label for="alcohollevel" class="form-label">Alkohollevel:</label>
-            <input type="number" class="form-control" id="alcohollevel" name="alcohollevel">
+            <input required type="number" class="form-control" id="alcohollevel" name="alcohollevel">
           </div>
           <div class="mb-3">
             <label for="maxweight" class="form-label">Maximum vægt:</label>
-            <input type="number" class="form-control" id="maxweight" name="maxweight">
+            <input required type="number" class="form-control" id="maxweight" name="maxweight">
           </div>
           <div class="mb-3">
             <label for="minheight" class="form-label">Minimum højde:</label>
-            <input type="number" class="form-control" id="minheight" name="minheight">
+            <input required type="number" class="form-control" id="minheight" name="minheight">
           </div>
           <div class="mb-3">
             <label for="maxheight" class="form-label">Maximum højde:</label>
-            <input type="number" class="form-control" id="maxheight" name="maxheight">
+            <input required type="number" class="form-control" id="maxheight" name="maxheight">
           </div>
           <div class="mb-3">
             <label for="minage" class="form-label">Minimum alder:</label>
-            <input type="number" class="form-control" id="minage" name="minage">
+            <input required type="number" class="form-control" id="minage" name="minage">
           </div>
           <div class="mb-3">
             <label for="maxage" class="form-label">Maximum alder:</label>
-            <input type="number" class="form-control" id="maxage" name="maxage">
+            <input required type="number" class="form-control" id="maxage" name="maxage">
           </div>
           
           <div class="text-center d-grid gap-2 col-3 mx-auto">
@@ -82,6 +82,30 @@
 
   <div id="footer"></div>
 
+
+  <script>
+    $(document).ready(function () {
+  $("form").submit(function (event) {
+    var formData = {
+      name: $("#name").val(),
+      description: $("#activitydescription").val(),
+      price: $("#price").val(),
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/api/v1/activity",
+      data: formData,
+      dataType: "json",
+      //encode: true,
+    }).done(function (data) {
+      console.log(data);
+    });
+
+    event.preventDefault();
+  });
+});
+  </script>
 
 </body>
 </html>
