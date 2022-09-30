@@ -105,11 +105,14 @@ elements.clear.addEventListener("click", function(ev) {
             }
         });
     };
+    const activities = [];
     dp.onEventClick = function (args) {
-        console.log(fetchActivities);
         const types = [];
-/* console.log(activities[0]);
-            types.push('{name: "' + activities[0][0]+ '", id: "' +activities[0][0 ].name+'"}'); */
+        for (let i = 0; i < activities[0].length; i++) {
+            const element = activities[0][i];
+            types.push({name: element.name, id: element.name});
+            console.log(types);    
+        }
 const form = [
   {name: "Opdater booking", id: "text"},
   {name: "Vælg aktivitet", id: "type", type: "select", options: types},
@@ -117,7 +120,7 @@ const form = [
     {html: "<p>Indsæt beskrivelse her</p>"}
 
 ];
-
+console.log(form);
         var data = args.e.data;
         DayPilot.Modal.form(form, data).then(function(modal) {
             if (modal.canceled) {
@@ -238,7 +241,7 @@ const form = [
         });
     }
 
-   const fetchActivities= fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {console.log(data);return data});
+   const fetchActivities= fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {activities.push(data)});
 
 
 
