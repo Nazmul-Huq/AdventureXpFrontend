@@ -16,14 +16,14 @@
 
   <div id="header"></div>
   <div class="body-div">
-    <form style="margin-left:25%; width: 50%; font-weight: bold;">
+    <form style="margin-left:25%; width: 50%; font-weight: bold;" id="add-activity-form">
         <div class="mb-3">
             <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
             <input required type="text" class="form-control" id="name" name="name">
           </div>
           <div class="mb-3">
-            <label for="activitydescription" class="form-label">Aktivitetsbeskrivelse:</label>
-            <input required type="text" class="form-control" id="activitydescription" name="activitydescription">
+            <label for="description" class="form-label">Aktivitetsbeskrivelse:</label>
+            <input required type="text" class="form-control" id="description" name="description">
           </div>
           <div class="mb-3">
             <label for="price" class="form-label">Pris:</label>
@@ -37,45 +37,49 @@
          <br>
 
           <div class="mb-3">
-            <label for="minattendants" class="form-label">Minimum deltagere:</label>
-            <input required type="number" class="form-control" id="minattendants" name="minattendants">
+            <label for="minimumAttendants" class="form-label">Minimum deltagere:</label>
+            <input required type="number" class="form-control" id="minimumAttendants" name="minimumAttendants">
           </div>
           <div class="mb-3">
-            <label for="maxattendants" class="form-label">Maximum deltagere:</label>
-            <input required type="number" class="form-control" id="maxattendants" name="maxattendants">
+            <label for="maximumAttendants" class="form-label">Maximum deltagere:</label>
+            <input required type="number" class="form-control" id="maximumAttendants" name="maximumAttendants">
           </div>
           <div class="mb-3">
-            <label for="alcohollevel" class="form-label">Alkohollevel:</label>
-            <input required type="number" class="form-control" id="alcohollevel" name="alcohollevel">
+            <label for="alcoholLevel" class="form-label">Alkohollevel:</label>
+            <input required type="number" class="form-control" id="alcoholLevel" name="alcoholLevel">
           </div>
           <div class="mb-3">
-            <label for="maxweight" class="form-label">Maximum vægt:</label>
-            <input required type="number" class="form-control" id="maxweight" name="maxweight">
+            <label for="maxWeight" class="form-label">Maximum vægt:</label>
+            <input required type="number" class="form-control" id="maxWeight" name="maxWeight">
           </div>
           <div class="mb-3">
-            <label for="minheight" class="form-label">Minimum højde:</label>
-            <input required type="number" class="form-control" id="minheight" name="minheight">
+            <label for="minimumHeight" class="form-label">Minimum højde:</label>
+            <input required type="number" class="form-control" id="minimumHeight" name="minimumHeight">
           </div>
           <div class="mb-3">
-            <label for="maxheight" class="form-label">Maximum højde:</label>
-            <input required type="number" class="form-control" id="maxheight" name="maxheight">
+            <label for="maximumHeight" class="form-label">Maximum højde:</label>
+            <input required type="number" class="form-control" id="maximumHeight" name="maximumHeight">
           </div>
           <div class="mb-3">
-            <label for="minage" class="form-label">Minimum alder:</label>
-            <input required type="number" class="form-control" id="minage" name="minage">
+            <label for="minimumAge" class="form-label">Minimum alder:</label>
+            <input required type="number" class="form-control" id="minimumAge" name="minimumAge">
           </div>
           <div class="mb-3">
-            <label for="maxage" class="form-label">Maximum alder:</label>
-            <input required type="number" class="form-control" id="maxage" name="maxage">
-          </div>
+            <label for="maximumAge" class="form-label">Maximum alder:</label>
+            <input required type="number" class="form-control" id="maximumAge" name="maximumAge">
+          </div> 
+          <div class="mb-3">
+            <label for="requirementsDescrip" class="form-label">Kravbeskrivelse:</label>
+            <input required type="text" class="form-control" id="requirementsDescrip" name="requirementsDescrip">
+          </div> 
           
           <div class="text-center d-grid gap-2 col-3 mx-auto">
-          <button type="submit" class="btn btn-primary">Gem</button>
+          <button type="submit" id="submit-activity" class="btn btn-primary">Gem</button>
           </div>
-          
+           
           <div class="text-center d-grid gap-1 col-3 mx-auto">
             <button type="submit" class="btn">Annuller</button>
-            </div>
+            </div> 
         </form>
 
   </div>
@@ -84,28 +88,23 @@
 
 
   <script>
-    $(document).ready(function () {
-  $("form").submit(function (event) {
-    var formData = {
-      name: $("#name").val(),
-      description: $("#activitydescription").val(),
-      price: $("#price").val(),
-    };
 
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:8080/api/v1/activity",
-      data: formData,
-      dataType: "json",
-      //encode: true,
-    }).done(function (data) {
-      console.log(data);
+    const thisForm = document.getElementById('add-activity-form');
+    thisForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(thisForm).entries()
+        const response = await fetch('http://localhost:8080/api/v1/activity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+        });
+        const result = await response.json();
+        // here we can check the result and based on result we can redirect to new page or show error message
+        window.location.href = "/activity-success.html"; // this will redirect to the new page
     });
 
-    event.preventDefault();
-  });
-});
-  </script>
+
+  </script>  
 
 </body>
 </html>
