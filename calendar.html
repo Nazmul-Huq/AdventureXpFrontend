@@ -125,8 +125,7 @@ const form = [
     {html: "<p>Indsæt beskrivelse her</p>"}
 
 ];
-const test = $("div.modal_default_form_item_select select");
-console.log(test);      
+
 var data = args.e.data;
         DayPilot.Modal.form(form, data).then(function(modal) {
             if (modal.canceled) {
