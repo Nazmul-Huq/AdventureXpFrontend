@@ -23,15 +23,15 @@
       
       <div class="mb-3">
           <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
-          <input type="text" class="form-control" id="name" name="name" value="">
+          <input type="text" class="form-control" id="name" name="name">
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Aktivitetsbeskrivelse:</label>
-        <input type="text" class="form-control" id="description" name="description" value="">
+        <input type="text" class="form-control" id="description" name="description">
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Pris:</label>
-        <input type="number" class="form-control" id="price" name="price" value="">
+        <input type="number" class="form-control" id="price" name="price">
       </div>
 
       <br>
@@ -46,31 +46,31 @@
       </div>
       <div class="mb-3">
         <label for="maxattendants" class="form-label">Maximum deltagere:</label>
-        <input type="number" class="form-control" id="maxattendants" name="maxattendants" value="">
+        <input type="number" class="form-control" id="maxattendants" name="maximumAttendants">
       </div>
       <div class="mb-3">
         <label for="alcohollevel" class="form-label">Alkohollevel:</label>
-        <input type="number" class="form-control" id="alcohollevel" name="alcohollevel">
+        <input type="number" class="form-control" id="alcohollevel" name="alcoholLevel">
       </div>
       <div class="mb-3">
         <label for="maxweight" class="form-label">Maximum vægt:</label>
-        <input type="number" class="form-control" id="maxweight" name="maxweight">
+        <input type="number" class="form-control" id="maxweight" name="maxWeight">
       </div>
       <div class="mb-3">
         <label for="minheight" class="form-label">Minimum højde:</label>
-        <input type="number" class="form-control" id="minheight" name="minheight">
+        <input type="number" class="form-control" id="minheight" name="minimumHeight">
       </div>
       <div class="mb-3">
         <label for="maxheight" class="form-label">Maximum højde:</label>
-        <input type="number" class="form-control" id="maxheight" name="maxheight">
+        <input type="number" class="form-control" id="maxheight" name="maximumHeight">
       </div>
       <div class="mb-3">
         <label for="minage" class="form-label">Minimum alder:</label>
-        <input type="number" class="form-control" id="minage" name="minage">
+        <input type="number" class="form-control" id="minage" name="minimumAge">
       </div>
       <div class="mb-3">
         <label for="maxage" class="form-label">Maximum alder:</label>
-        <input type="number" class="form-control" id="maxage" name="maxage">
+        <input type="number" class="form-control" id="maxage" name="maximumAge">
       </div> 
       <div class="mb-3">
         <label for="requirementsDescrip" class="form-label">Kravbeskrivelse:</label>
@@ -169,7 +169,7 @@
          });
          const result = await response.json();
          // here we can check the result and based on result we can redirect to new page or show error message
-         window.location.href = "/activity-success.html"; // this will redirect to the new page
+         window.location.href = "/update-activity-success.html"; // this will redirect to the new page
     
          console.log(result)
      });
