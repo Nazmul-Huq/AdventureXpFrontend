@@ -18,7 +18,7 @@
   <div class="body-div">
     <form style="margin-left:25%; width: 50%; font-weight: bold;" id="update-activity-form">
       <div class="mb-3">
-        <input type="hidden" id="activityId" name="activityId" value="">
+        <input type="number" id="activityId" name="activityId">
       </div>
       
       <div class="mb-3">
@@ -39,14 +39,14 @@
       <h4 class="text-decoration-underline">Krav til aktivitet</h4>
       </div>
       <br>
-
+      <input type="number" name="requirementId" id="requirementId">
       <div class="mb-3">
-        <label for="minattendants" class="form-label">Minimum deltagere:</label>
-        <input type="number" class="form-control" id="minattendants" name="minattendants">
+        <label for="minimumAttendants" class="form-label">Minimum deltagere:</label>
+        <input type="number" class="form-control" id="minimumAttendants" name="minimumAttendants">
       </div>
       <div class="mb-3">
         <label for="maxattendants" class="form-label">Maximum deltagere:</label>
-        <input type="number" class="form-control" id="maxattendants" name="maxattendants">
+        <input type="number" class="form-control" id="maxattendants" name="maxattendants" value="">
       </div>
       <div class="mb-3">
         <label for="alcohollevel" class="form-label">Alkohollevel:</label>
@@ -140,11 +140,12 @@
        // fill the form
        let activityName = individualActivity.name;
        console.log(activityName)
-       document.getElementById('activityId').value = individualActivity.id;
+       document.getElementById('activityId').value = individualActivity.activityId;
        document.getElementById('name').value = activityName;
        document.getElementById('description').value = individualActivity.description;
        document.getElementById('price').value = individualActivity.price;
-       document.getElementById('minattendants').value = individualActivity.minimumAttendants;
+       document.getElementById('requirementId').value = individualActivity.requirementId;
+       document.getElementById('minimumAttendants').value = individualActivity.minimumAttendants;
        document.getElementById('maxattendants').value = individualActivity.maximumAttendants;
        document.getElementById('alcohollevel').value = individualActivity.alcoholLevel;
        document.getElementById('maxweight').value = individualActivity.maxWeight;
