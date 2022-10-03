@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- CSS only -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+ <!-- JavaScript Bundle with Popper -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+  <title>Show List Of All Activity</title>
+</head>
+<body>
+
+  <div class="h1">
+      In this page we will show how to submit form to the backend
+  </div>
+
+  <div class="body-div">
+    <!-- write your own code here -->
+
+    <form id="add-activity-form">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description">
+        <br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price">
+        <br>
+        <input id="addActivity" type="submit" value="Add Activity">
+    </form>
+
+  </div> <!-- end of body-div -->
+
+  <script>
+
+    const thisForm = document.getElementById('add-activity-form');
+    thisForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(thisForm).entries()
+        const response = await fetch('http://localhost:8080/api/v1/activity', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+        });
+        const result = await response.json();
+        // here we can check the result and based on result we can redirect to new page or show error message
+        window.location.href = "/tests/test-activity.html"; // this will redirect to the new page
+    });
+
+
+  </script>  
+</body>
+</html>
+
+
+
+  
