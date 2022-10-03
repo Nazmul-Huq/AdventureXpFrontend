@@ -26,7 +26,11 @@
         <div id="nav"></div>
     </div>
     <div style="flex-grow: 1">
-        <input id="filter" placeholder="Søg her"><a href="#" id="clear">clear</a>
+        <p>
+            <input id="filter" placeholder="Søg her">
+            <p id="links"><a href="#" id="clear"><button>Clear</button></a></p>
+
+        </p>
         <div id="dp"></div>
     </div>
 </div>
@@ -35,7 +39,7 @@
 <script src="js/daypilot-all.min.js"></script>
 
 <script>
-
+const activities = [];
 
     const nav = new DayPilot.Navigator("nav");
     nav.showMonths = 3;
@@ -105,14 +109,15 @@ elements.clear.addEventListener("click", function(ev) {
             }
         });
     };
-    const activities = [];
+
     dp.onEventClick = function (args) {
         const types = [];
         for (let i = 0; i < activities[0].length; i++) {
             const element = activities[0][i];
-            types.push({name: element.name, id: element.name});
-            console.log(types);    
+            types.push({name: element.name, id: element.name});  
         }
+
+
 const form = [
   {name: "Opdater booking", id: "text"},
   {name: "Vælg aktivitet", id: "type", type: "select", options: types},
@@ -120,8 +125,9 @@ const form = [
     {html: "<p>Indsæt beskrivelse her</p>"}
 
 ];
-console.log(form);
-        var data = args.e.data;
+const test = $("div.modal_default_form_item_select select");
+console.log(test);      
+var data = args.e.data;
         DayPilot.Modal.form(form, data).then(function(modal) {
             if (modal.canceled) {
                 return;
@@ -240,10 +246,27 @@ console.log(form);
             }
         });
     }
+    function search(id){
+        const filter_box = document.getElementById('filter'); 
+        filter_box.value = id.id; 
+        filter_box.dispatchEvent(new KeyboardEvent('keyup', {'key': 'enter'}))}
 
-   const fetchActivities= fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {activities.push(data)});
+    window.addEventListener('DOMContentLoaded', (event) => {
+        fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {activities.push(data)
+        activities[0].forEach(element => {
+            const button = document.createElement("button");
+            const node = document.createTextNode(element.name);
+            button.setAttribute('id', element.name)
+            button.setAttribute('onClick',"search("+ element.name+")");
+            button.appendChild(node);
+            const links_element = document.getElementById("links");
+            links_element.appendChild(button);
+                });
+        
+        });
+        
 
-
+});
 
 
 </script>
