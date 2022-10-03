@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- CSS only -->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+ <!-- JavaScript Bundle with Popper -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+  <title>Show List Of All Activity</title>
+</head>
+<body>
+
+  <div class="h1">
+      In this page we will show a list of all activity
+  </div>
+  <div class="h3">
+    <p>In each list there will be options to click and see detail in the same page   </p>  
+    <p>For each list, We will be able to click an icon "Show Deatil" that will go to new page and shwo all related information of that specific activity</p>
+    <p>For each list, a button "Update the Activity" will redirect to update-activity.html page</p>
+    <p>For each list, a button "Delete the Activity" will redirect to delete-activity.html page</p>
+  </div>
+
+  <div class="body-div">
+    <!-- write your own code here -->
+
+    <div class="accordion" id="allActivityAccordion">
+    </div>
+  </div> <!-- end of body-div -->
+
+  <script>
+    window.onload =  getAllActivity = async () => {
+      // call backend to get data
+      const response = await fetch( 'http://localhost:8080/api/v1/activity', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+      const allActivity = await response.json();
+
+      // loop over data and make div, table, etc.
+      for(let i = 0; i < allActivity.length; i++){
+        
+        let activityId = allActivity[i].id;
+        let activityName = allActivity[i].name;
+        let activityDescription = allActivity[i].description;
+
+        var individualItem = 
+          "<div class=\"accordion-item\">" +
+            "<h2 class=\"accordion-header\" id=\"heading-"+i+"\">"+
+              "<button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse-"+i+"\" aria-expanded=\"true\" aria-controls=\"collapse-"+i+"\">"+
+                activityName+
+              "</button>"+
+            "</h2>"+
+            "<div id=\"collapse-"+i+"\" class=\"accordion-collapse collapse hide\" aria-labelledby=\"heading-"+i+"\" data-bs-parent=\"#allActivityAccordion\">"+
+              "<div class=\"accordion-body\">"+
+                "<a href=\"/tests/test-update-activity.html?id="+activityId+"\">Update</a>"+
+                "<br>"+
+                activityDescription+
+              "</div>"+
+            "</div>"+  
+          "</div>";
+        $('#allActivityAccordion').append(individualItem) ;
+      }
+    }
+
+  </script>  
+</body>
+</html>
+
+
+
+  
