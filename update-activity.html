@@ -16,65 +16,74 @@
 
   <div id="header"></div>
   <div class="body-div">
-    <form style="margin-left:25%; width: 50%; font-weight: bold;">
-        <div class="mb-3">
-            <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
-            <input type="text" class="form-control" id="name" name="name">
-          </div>
-          <div class="mb-3">
-            <label for="activitydescription" class="form-label">Aktivitetsbeskrivelse:</label>
-            <input type="text" class="form-control" id="activitydescription" name="activitydescription">
-          </div>
-          <div class="mb-3">
-            <label for="price" class="form-label">Pris:</label>
-            <input type="number" class="form-control" id="price" name="price">
-          </div>
+    <form style="margin-left:25%; width: 50%; font-weight: bold;" id="update-activity-form">
+      <div class="mb-3">
+        <input type="number" id="activityId" name="activityId">
+      </div>
+      
+      <div class="mb-3">
+          <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
+          <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Aktivitetsbeskrivelse:</label>
+        <input type="text" class="form-control" id="description" name="description">
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Pris:</label>
+        <input type="number" class="form-control" id="price" name="price">
+      </div>
 
-          <br>
-          <div class="mb-3">
-          <h4 class="text-decoration-underline">Krav til aktivitet</h4>
-         </div>
-         <br>
-
-          <div class="mb-3">
-            <label for="minattendants" class="form-label">Minimum deltagere:</label>
-            <input type="number" class="form-control" id="minattendants" name="minattendants">
-          </div>
-          <div class="mb-3">
-            <label for="maxattendants" class="form-label">Maximum deltagere:</label>
-            <input type="number" class="form-control" id="maxattendants" name="maxattendants">
-          </div>
-          <div class="mb-3">
-            <label for="alcohollevel" class="form-label">Alkohollevel:</label>
-            <input type="number" class="form-control" id="alcohollevel" name="alcohollevel">
-          </div>
-          <div class="mb-3">
-            <label for="maxweight" class="form-label">Maximum vægt:</label>
-            <input type="number" class="form-control" id="maxweight" name="maxweight">
-          </div>
-          <div class="mb-3">
-            <label for="minheight" class="form-label">Minimum højde:</label>
-            <input type="number" class="form-control" id="minheight" name="minheight">
-          </div>
-          <div class="mb-3">
-            <label for="maxheight" class="form-label">Maximum højde:</label>
-            <input type="number" class="form-control" id="maxheight" name="maxheight">
-          </div>
-          <div class="mb-3">
-            <label for="minage" class="form-label">Minimum alder:</label>
-            <input type="number" class="form-control" id="minage" name="minage">
-          </div>
-          <div class="mb-3">
-            <label for="maxage" class="form-label">Maximum alder:</label>
-            <input type="number" class="form-control" id="maxage" name="maxage">
-          </div>
+      <br>
+      <div class="mb-3">
+      <h4 class="text-decoration-underline">Krav til aktivitet</h4>
+      </div>
+      <br>
+      <input type="number" name="requirementId" id="requirementId">
+      <div class="mb-3">
+        <label for="minimumAttendants" class="form-label">Minimum deltagere:</label>
+        <input type="number" class="form-control" id="minimumAttendants" name="minimumAttendants">
+      </div>
+      <div class="mb-3">
+        <label for="maxattendants" class="form-label">Maximum deltagere:</label>
+        <input type="number" class="form-control" id="maxattendants" name="maximumAttendants">
+      </div>
+      <div class="mb-3">
+        <label for="alcohollevel" class="form-label">Alkohollevel:</label>
+        <input type="number" class="form-control" id="alcohollevel" name="alcoholLevel">
+      </div>
+      <div class="mb-3">
+        <label for="maxweight" class="form-label">Maximum vægt:</label>
+        <input type="number" class="form-control" id="maxweight" name="maxWeight">
+      </div>
+      <div class="mb-3">
+        <label for="minheight" class="form-label">Minimum højde:</label>
+        <input type="number" class="form-control" id="minheight" name="minimumHeight">
+      </div>
+      <div class="mb-3">
+        <label for="maxheight" class="form-label">Maximum højde:</label>
+        <input type="number" class="form-control" id="maxheight" name="maximumHeight">
+      </div>
+      <div class="mb-3">
+        <label for="minage" class="form-label">Minimum alder:</label>
+        <input type="number" class="form-control" id="minage" name="minimumAge">
+      </div>
+      <div class="mb-3">
+        <label for="maxage" class="form-label">Maximum alder:</label>
+        <input type="number" class="form-control" id="maxage" name="maximumAge">
+      </div> 
+      <div class="mb-3">
+        <label for="requirementsDescrip" class="form-label">Kravbeskrivelse:</label>
+        <input required type="text" class="form-control" id="requirementsDescrip" name="requirementsDescrip">
+      </div> 
           
-          <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
-          <button type="submit" class="btn btn-primary" style="width:50% ;">Gem</button>
-          <p id="delete"></p>
-          <button onclick="myFunction()" type="submit" class="btn btn-danger" style="width:50% ;">Slet</button>
+      <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+        <button type="submit" id="update-activity" class="btn btn-primary" style="width:50% ;">Gem</button>
+      </div>
+          <!-- <p id="delete"></p>
+          <button onclick="myFunction()" type="submit" class="btn btn-danger" style="width:50% ;">Slet</button> -->
 
-          <script>
+          <!-- <script>
             function myFunction() {
               var txt;
               if (confirm("Er du sikker på du vil slette denne aktivitet?")) {
@@ -84,18 +93,89 @@
               }
               document.getElementById("delete").innerHTML = txt;
             }
-            </script>
+            </script> -->
 
-          </div>
-
+          
+          <!-- 
           <div class="text-center d-grid gap-1 col-3 mx-auto">
             <button type="submit" class="btn">Annuller</button>
-            </div>
-        </form>
+            </div> -->
+    </form>
     
   </div>
 
   <div id="footer"></div>
+
+  <script>
+    var endPointUrl;    
+    
+    window.onload = function fillTheActivityForm(){
+      getIdFromUrl(); // make the endpoint url
+      getIndividualActivityAndFillForm(); // get data from backend
+    }
+
+    //get the id from url and make the url for rest cal
+    function getIdFromUrl(){
+      const queryString = window.location.search;
+      console.log(queryString)
+      const urlParams = new URLSearchParams(queryString);
+      console.log(queryString)
+      const id = urlParams.get('id');
+      console.log(id)
+      endPointUrl = 'http://localhost:8080/api/v1/activity/'+id;
+      console.log(endPointUrl);
+    }
+
+    // get data from backend based on "endPointUrl" and fill the form
+    const getIndividualActivityAndFillForm = async () => {
+      // call backend to get data
+      const response = await fetch( endPointUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+       var individualActivity = await response.json();  
+       // fill the form
+       let activityName = individualActivity.name;
+       console.log(activityName)
+       document.getElementById('activityId').value = individualActivity.activityId;
+       document.getElementById('name').value = activityName;
+       document.getElementById('description').value = individualActivity.description;
+       document.getElementById('price').value = individualActivity.price;
+       document.getElementById('requirementId').value = individualActivity.requirementId;
+       document.getElementById('minimumAttendants').value = individualActivity.minimumAttendants;
+       document.getElementById('maxattendants').value = individualActivity.maximumAttendants;
+       document.getElementById('alcohollevel').value = individualActivity.alcoholLevel;
+       document.getElementById('maxweight').value = individualActivity.maxWeight;
+       document.getElementById('minheight').value = individualActivity.minimumHeight;
+       document.getElementById('maxheight').value = individualActivity.maximumHeight;
+       document.getElementById('minage').value = individualActivity.minimumAge;
+       document.getElementById('maxage').value = individualActivity.maximumAge;
+       document.getElementById('requirementsDescrip').value = individualActivity.requirementsDescrip;
+    }
+  
+    
+    // form submission start here
+     const thisForm = document.getElementById('update-activity-form');
+     thisForm.addEventListener('submit', async function (e) {
+         e.preventDefault();
+         const formData = new FormData(thisForm).entries()
+         const response = await fetch('http://localhost:8080/api/v1/activity/', {
+             method: 'PUT',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify(Object.fromEntries(formData))
+         });
+         const result = await response.json();
+         // here we can check the result and based on result we can redirect to new page or show error message
+         window.location.href = "/update-activity-success.html"; // this will redirect to the new page
+    
+         console.log(result)
+     });
+     //form submission ends here
+    
+  </script>  
 
 
 </body>
