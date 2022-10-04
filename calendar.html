@@ -15,6 +15,13 @@
 			  src="https://code.jquery.com/jquery-3.6.1.min.js"
 			  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 			  crossorigin="anonymous"></script>
+              <script>
+                $(function(){
+                  $("#header").load("header.html");
+                  $("#footer").load("footer.html");
+                });
+          
+              </script>
 
     <link href="style/calendar/main.css" rel="stylesheet" type="text/css">
     <link href="style/calendar/icons/style.css" rel="stylesheet" type="text/css">
@@ -25,6 +32,7 @@
 <div class="main" style="display: flex;">
     <div style="margin-right: 10px;">
         <div id="nav"></div>
+        <div><p>Hej</p></div>
     </div>
     <div style="flex-grow: 1">
         <p>
