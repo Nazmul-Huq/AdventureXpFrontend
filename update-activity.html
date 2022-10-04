@@ -17,8 +17,13 @@
   <div id="header"></div>
   <div class="body-div">
     <form style="margin-left:25%; width: 50%; font-weight: bold;" id="update-activity-form">
+      <div class="text-center">
+        <h1>Opdater aktivitet</h1>
+        <br>
+        <br>
+      </div>
       <div class="mb-3">
-        <input type="number" id="activityId" name="activityId">
+        <input type="hidden" id="activityId" name="activityId">
       </div>
       
       <div class="mb-3">
@@ -39,7 +44,7 @@
       <h4 class="text-decoration-underline">Krav til aktivitet</h4>
       </div>
       <br>
-      <input type="number" name="requirementId" id="requirementId">
+      <input type="hidden" name="requirementId" id="requirementId">
       <div class="mb-3">
         <label for="minimumAttendants" class="form-label">Minimum deltagere:</label>
         <input type="number" class="form-control" id="minimumAttendants" name="minimumAttendants">
@@ -80,33 +85,35 @@
       <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
         <button type="submit" id="update-activity" class="btn btn-primary" style="width:50% ;">Gem</button>
       </div>
-          <!-- <p id="delete"></p>
-          <button onclick="myFunction()" type="submit" class="btn btn-danger" style="width:50% ;">Slet</button> -->
-
-          <!-- <script>
-            function myFunction() {
-              var txt;
-              if (confirm("Er du sikker på du vil slette denne aktivitet?")) {
-                txt = "You pressed OK!";
-              } else {
-                txt = "You pressed Cancel!";
-              }
-              document.getElementById("delete").innerHTML = txt;
-            }
-            </script> -->
-
-          
-          <!-- 
-          <div class="text-center d-grid gap-1 col-3 mx-auto">
+          <!-- <div class="text-center d-grid gap-1 col-3 mx-auto">
             <button type="submit" class="btn">Annuller</button>
-            </div> -->
+            </div>  -->
     </form>
+
+    <br>
+    <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+      <button onclick="deleteActivityPopUP()" type="submit" class="btn btn-danger" style="width:25% ;">Slet</button> 
+    </div>
     
   </div>
 
-  <div id="footer"></div>
+  <div id="footer" class="fixed-bottom"></div>
 
   <script>
+
+      function deleteActivityPopUP() {
+        var txt;
+        if (confirm("Er du sikker på du vil slette denne aktivitet?")) {
+          deleteActivity();
+        } else {
+          
+        }
+        document.getElementById("delete").innerHTML = txt;
+      }
+
+
+
+
     var endPointUrl;    
     
     window.onload = function fillTheActivityForm(){
@@ -125,6 +132,21 @@
       endPointUrl = 'http://localhost:8080/api/v1/activity/'+id;
       console.log(endPointUrl);
     }
+
+    const deleteActivity = async () => {
+      // call backend to get data
+      const response = await fetch( endPointUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+        var individualActivity = await response.json();
+
+        window.location.href = "/activity.html";
+    }
+
 
     // get data from backend based on "endPointUrl" and fill the form
     const getIndividualActivityAndFillForm = async () => {
@@ -169,7 +191,7 @@
          });
          const result = await response.json();
          // here we can check the result and based on result we can redirect to new page or show error message
-         window.location.href = "/update-activity-success.html"; // this will redirect to the new page
+         window.location.href = "/activity.html"; // this will redirect to the new page
     
          console.log(result)
      });
