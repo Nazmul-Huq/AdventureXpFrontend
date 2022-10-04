@@ -44,15 +44,17 @@ class Activity{
             
         }
         var activityList = this.dataActivity.sort(compare);
-
+        
+            var button = "<button onclick=\"window.location.href='http://127.0.0.1:5601/add-activity.html'\"></button>";
+            $("#activity").append(button);
                     
             /* if(usercode == admin){
                 generate page with editbutton;
             }else{generate page;} */
 
             for(let i = 0; i < activityList.length; i++){
-
-
+                
+                
 
 
                 console.log(activityList[i]);
@@ -70,8 +72,8 @@ class Activity{
                 var minimumAttendants = "<br><strong>Min. deltagere:</strong> " +  activityList[i].minimumAttendants;
                 var minimumHeight = "<br><strong>Min. højde:</strong> " + activityList[i].minimumHeight;
 
-                var divStart = "<div class=\"accordion-item\"><h2 class=\"acordion-header\" id=\"heading"+i+"\"><button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse"+i+"\" aria-expanded=\"true\" aria-controls=\"collapse"+i+"\">";
-                var divMiddle = "</button></h2><div id=\"collapse"+i+"\" class=\"accordion-collapse collapse show\" aria-labelledby=\"heading"+i+"\" data-bs-parent=\"#accordionExample\"><div class=\"accordion-body\">";
+                var divStart = "<div class=\"accordion-item\"><h2 class=\"acordion-header\" id=\"heading"+i+"\"><button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse"+i+"\" aria-expanded=\"false\" aria-controls=\"collapse"+i+"\">";
+                var divMiddle = "</button></h2><div id=\"collapse"+i+"\" class=\"accordion-collapse collapse\" aria-labelledby=\"heading"+i+"\" data-bs-parent=\"#accordionExample\"><div class=\"accordion-body\">";
                 var divEnd = "<br><button onclick=\"window.location.href='http://127.0.0.1:5601/update-activity.html?id="+activityList[i].activityId+"'\">REDIGER</button></div></div></div>";
                 
                 var div = divStart + "<strong>"+name+"</strong>" + divMiddle + description + price + "<br>" + "<strong>Krav:</strong>" + alcoholLevel + maximumAttendants+ minimumAttendants +  maximumAge + minimumAge +  maximumHeight + minimumHeight+ maxWeight + reqDesc + divEnd;
