@@ -45,7 +45,7 @@ class Activity{
         }
         var activityList = this.dataActivity.sort(compare);
         
-            var button = "<button onclick=\"window.location.href='http://127.0.0.1:5601/add-activity.html'\">TILFØJ AKTIVITET</button>";
+            var button = "<button style= onclick=\"window.location.href='http://127.0.0.1:5601/add-activity.html'\">TILFØJ AKTIVITET</button>";
             $("#activity").append(button);
                     
             /* if(usercode == admin){
