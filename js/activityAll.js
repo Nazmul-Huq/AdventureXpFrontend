@@ -1,6 +1,6 @@
 
 class ActivityAll{
-endpointUrl = "http://127.0.0.1:8080/api/v1/activity/1"
+endpointUrl = "http://127.0.0.1:8080/api/v1/requirements"
 constructor(data){
     this.data = data;
     this.fetchData();
