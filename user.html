@@ -1,0 +1,49 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+    crossorigin="anonymous"
+  />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+  </head>
+  
+  <body>    
+    <form id="add-user-form" method="post" action="http://localhost:8080/api/auth/user">
+      <label for="username">Enter Username</label>
+      <input type="text", id="username" placeholder="username" name="username"/></br>
+      <label for="email">Enter Email</label>
+      <input type="text", id="email" placeholder="email" name="email"/></br>
+      <label for="password">Enter password</label>
+      <input type="text", id="password" placeholder="password" name="password"/></br>
+      <label for="role">Enter Role</label>
+      <input type="text", id="role" placeholder="role" name="role"/></br>
+      
+      <input type="submit" value="Add"/>
+    </form>
+    <!-- <script src="/js/user.js"></script> -->
+    <script>
+ 
+        const thisForm = document.getElementById('add-user-form');
+        thisForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(thisForm).entries()
+            const response = await fetch('http://localhost:8080/api/auth/user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+            const result = await response.json();
+            // here we can check the result and based on result we can redirect to new page or show error message
+            window.location.href = "/add-activity-success.html"; // this will redirect to the new page
+        });
+     
+      </script>
+  </body>
+  
+</html>
