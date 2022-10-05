@@ -19,7 +19,7 @@ class Calendar{
         /* let responseS = await fetch(this.endpointUrlSecurity); */
 
         this.dataActivity = await responseA.json();
-        
+    
         /* this.dataSecurity = await responseS.json(); */
 
         this.updateHtmlPage();
