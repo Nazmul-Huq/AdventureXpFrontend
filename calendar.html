@@ -39,7 +39,7 @@
     <div style="flex-grow: 1">
         <p>
             <input id="filter" placeholder="Søg her">
-            <p id="links"><a href="#" id="clear"><button class="btn btn-small btn-info text-dark">Clear</button></a></p>
+            <p id="links"><a href="#" id="clear"><button class="btn btn-small btn-info text-dark m-2">Clear</button></a></p>
 
         </p>
         <div id="dp"></div>
@@ -285,7 +285,7 @@ var data = args.e.data;
             const node_1 = document.createTextNode(element.name);
             button.setAttribute('id', element.name)
             button.setAttribute('onClick',"search("+ element.name+")");
-            button.classList.add('btn', 'btn-small', 'btn-info', 'text-dark');
+            button.classList.add('btn', 'btn-small', 'btn-info', 'text-dark', 'm-2');
             button.appendChild(node_1);
             const links_element = document.getElementById("links");
             const info_element = document.getElementById("info");
