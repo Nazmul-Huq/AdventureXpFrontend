@@ -12,19 +12,38 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
   </head>
+  
   <body>    
-    <form id="form" method="post">
+    <form id="add-user-form" method="post" action="http://localhost:8080/api/auth/user">
       <label for="username">Enter Username</label>
-      <input type="text", id="username" placeholder="username"/></br>
+      <input type="text", id="username" placeholder="username" name="username"/></br>
       <label for="email">Enter Email</label>
-      <input type="text", id="email" placeholder="email"/></br>
+      <input type="text", id="email" placeholder="email" name="email"/></br>
       <label for="password">Enter password</label>
-      <input type="text", id="password" placeholder="password"/></br>
+      <input type="text", id="password" placeholder="password" name="password"/></br>
       <label for="role">Enter Role</label>
-      <input type="text", id="role" placeholder="role"/></br>
+      <input type="text", id="role" placeholder="role" name="role"/></br>
       
       <input type="submit" value="Add"/>
     </form>
-    <script src="user.js"></script>
+    <!-- <script src="/js/user.js"></script> -->
+    <script>
+ 
+        const thisForm = document.getElementById('add-user-form');
+        thisForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(thisForm).entries()
+            const response = await fetch('http://localhost:8080/api/auth/user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+            const result = await response.json();
+            // here we can check the result and based on result we can redirect to new page or show error message
+            window.location.href = "/add-activity-success.html"; // this will redirect to the new page
+        });
+     
+      </script>
   </body>
+  
 </html>

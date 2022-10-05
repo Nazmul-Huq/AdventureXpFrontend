@@ -1,35 +1,30 @@
+async function doRequest() {
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const email = document.getElementById('email');
+    const role = document.getElementById('role');
 
+    let url = 'http://localhost:8080/api/auth/user';
+    let data = {'username': username, 'password': password, 'email': email,'role': role
+};
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
 
-var form=document.getElementById('form')
-
-form.addEventListener('submit', function(e){
- e.preventDefault()
-
- var username=document.getElementById('username').value
- var email=document.getElementById('email').value
- var password=document.getElementById('password').value
- var role=document.getElementById('role').value
-
- fetch('http://localhost:8080/api/auth/user.html', {
-  method: 'POST',
-  body: JSON.stringify({
-    username:username,
+var raw = JSON.stringify({
+    username: username,
     email:email,
     password:password,
-    role:role
-
-  }),
-  headers: {
-    'Content-type': 'application/json; charset=UTF-8',
-  }
-  })
-  .then(function(response){ 
-  return response.json()})
-  .then(function(data)
-  {console.log(data)
-  username=document.getElementById("username")
-  email=document.getElementById("email")
-  password=document.getElementById("password")
-  role=document.getElementById("role") 
-}).catch(error => console.error('Error:', error)); 
+   role:role
 });
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+fetch(url, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
