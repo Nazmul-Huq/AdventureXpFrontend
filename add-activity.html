@@ -17,10 +17,11 @@
   <div id="header"></div>
   <div class="body-div">
     <form style="margin-left:25%; width: 50%; font-weight: bold;" id="add-activity-form">
+      <br>
+      <br>
       <div class="text-center">
         <h1>Opret Aktivitet</h1> 
       </div>
-      <br>
       <br>
         <div class="mb-3">
             <label for="name" class="form-label font-weight-bold">Aktivitetsnavn:</label>
@@ -105,7 +106,7 @@
         });
         const result = await response.json();
         // here we can check the result and based on result we can redirect to new page or show error message
-        window.location.href = "/add-activity-success.html"; // this will redirect to the new page
+        window.location.href = "/activity.html"; // this will redirect to the new page
     });
 
 

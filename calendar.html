@@ -39,7 +39,7 @@
     <div style="flex-grow: 1">
         <p>
             <input id="filter" placeholder="Søg her">
-            <p id="links"><a href="#" id="clear"><button>Clear</button></a></p>
+            <p id="links"><a href="#" id="clear"><button class="btn btn-small btn-info text-dark">Clear</button></a></p>
 
         </p>
         <div id="dp"></div>
@@ -62,7 +62,7 @@ const activities = [];
     nav.onTimeRangeSelected = (args) => {
         dp.startDate = args.day;
         dp.update();
-        dp.events.load("http://localhost:8080/api/events");
+        dp.events.load("http://localhost:8080/api/v1/events");
     };
     nav.init();
 
@@ -97,7 +97,7 @@ elements.clear.addEventListener("click", function(ev) {
                 text: modal.result
             };
             DayPilot.Http.ajax({
-                url: 'http://localhost:8080/api/events/create',
+                url: 'http://localhost:8080/api/v1/events/create',
                 data: params,
                 success: function (ajax) {
                     var data = ajax.data;
@@ -114,7 +114,7 @@ elements.clear.addEventListener("click", function(ev) {
             end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/events/move',
+            url: 'http://localhost:8080/api/v1/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Booking rykket");
@@ -143,7 +143,7 @@ var data = args.e.data;
                 return;
             }
             DayPilot.Http.ajax({
-                url: 'http://localhost:8080/api/events/update',
+                url: 'http://localhost:8080/api/v1/events/update',
                 data: modal.result,
                 success: function (ajax) {
                     dp.events.update(ajax.data);
@@ -162,7 +162,7 @@ var data = args.e.data;
         // API call to delete the event on the server side
         // ...
         DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/events/delete',
+            url: 'http://localhost:8080/api/v1/events/delete',
             data: args.e.data,
             success: function (ajax) {
                 dp.message("Booking slettet");
@@ -177,7 +177,7 @@ var data = args.e.data;
             end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/events/move',
+            url: 'http://localhost:8080/api/v1/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Bookingtid rykket");
@@ -237,7 +237,7 @@ var data = args.e.data;
     });
     dp.init();
 
-    dp.events.load("http://localhost:8080/api/events");
+    dp.events.load("http://localhost:8080/api/v1/events");
 
 
 
@@ -247,7 +247,7 @@ var data = args.e.data;
             color: color
         };
         DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/events/setColor',
+            url: 'http://localhost:8080/api/v1/events/setColor',
             data: params,
             success: function (ajax) {
                 e.data.color = color;
@@ -285,15 +285,15 @@ var data = args.e.data;
             const node_1 = document.createTextNode(element.name);
             button.setAttribute('id', element.name)
             button.setAttribute('onClick',"search("+ element.name+")");
+            button.classList.add('btn', 'btn-small', 'btn-info', 'text-dark');
             button.appendChild(node_1);
             const links_element = document.getElementById("links");
             const info_element = document.getElementById("info");
             links_element.appendChild(button);
             
             const info_button = document.createElement("button");
-            info_button.setAttribute('type', 'button')
-            
-            info_button.setAttribute('class', 'btn btn-secondary');
+            info_button.setAttribute('type', 'button')  
+            info_button.setAttribute('class', 'btn btn-secondary', 'btn-info');
             info_button.setAttribute('data-bs-toggle', 'tooltip' );
             info_button.setAttribute('data-bs-placement', 'right');
             const node_2 = document.createTextNode(element.name);
