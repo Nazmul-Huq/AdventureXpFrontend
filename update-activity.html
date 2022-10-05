@@ -85,21 +85,26 @@
       <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
         <button type="submit" id="update-activity" class="btn btn-primary" style="width:50% ;">Gem</button>
       </div>
-          <!-- <div class="text-center d-grid gap-1 col-3 mx-auto">
-            <button type="submit" class="btn">Annuller</button>
-            </div>  -->
     </form>
 
     <br>
     <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
       <button onclick="deleteActivityPopUP()" type="submit" class="btn btn-danger" style="width:25% ;">Slet</button> 
     </div>
+
+
+    <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+      <button onclick="cancelUpdateActivity()" type="submit" class="btn">Annuller</button>
+    </div> 
     
   </div>
 
   <div id="footer" class="fixed-bottom"></div>
 
   <script>
+    function cancelUpdateActivity(){
+      window.location.href = "/activity.html"; // this will redirect to the new page
+    }
 
       function deleteActivityPopUP() {
         var txt;
