@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header"></div>
+  <div class="body-div">
+    <form style="font-weight: bold; margin: auto;" id="add-shift-form">
+      <div class="text-center">
+        <h1>Vagtskema</h1> 
+      </div>
+      <br>
+      <a href="add-shift.html">
+      <div class="col-6">
+        <button type="submit" id="submit-shift" class="btn btn-primary col-3" style="margin-left:88%">Opret vagt</button>
+       </div>
+      </a>
+    <br>
+        <div class="mb-3 d-flex align-items-center d-grid gap-2" style="margin-left:35%">
+            <label for="month" class="form-label font-weight-bold">Måned:</label>
+            <input type="date" class="form-control" id="month" style="width:20%;">
+        <div class="col-6">
+            <button type="submit" id="submit-shift" class="btn btn-primary">Vis skema</button>
+        </div>
+        </div>
+
+        <table class="table table-bordered" style="width:50%; margin: auto;">
+            <thead>
+              <tr>
+                <th scope="col">Navn</th>
+                <th scope="col">Start</th>
+                <th scope="col">Slut</th>
+                <th scope="col">Opgave</th>
+                <th scope="col">Rediger</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="width:15% ;"><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
+              </tr>
+              
+            </tbody>
+          </table>
+        
+        
+                   
+        </form>
+
+  </div>
+
+  <div id="footer" class="fixed-bottom"></div>
+
+</body>
+</html>
