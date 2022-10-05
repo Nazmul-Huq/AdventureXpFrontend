@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header"></div>
+  <div class="body-div">
+    <form style="margin-left:25%; width: 50%; font-weight: bold;" id="add-shift-form">
+        <br>
+        <br>
+      <div class="text-center">
+        <h1>Opret Vagt</h1> 
+      </div>
+      <br>
+        <div class="mb-3">
+            <label for="name" class="form-label font-weight-bold">Medarbejdernavn:</label>
+            <input required type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="date" class="form-label">Dato:</label>
+            <input required type="date" class="form-control" id="date" name="date">
+          </div>
+          <div class="mb-3">
+            <label for="startTime" class="form-label">Start på vagt:</label>
+            <input required type="time" class="form-control" id="startTime" name="startTime">
+          </div>
+          <div class="mb-3">
+            <label for="endTime" class="form-label">Slutning på vagt:</label>
+            <input required type="time" class="form-control" id="endTime" name="endTime">
+          </div>
+          <div class="mb-3">
+            <label for="endTime" class="form-label">Aktivitet:</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="activity" value="1" id="activity1">
+            <label class="form-check-label" for="activity1">
+              Lasertag
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="activity" value="3" id="activity2">
+            <label class="form-check-label" for="activity2">
+              Paintball
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="activity" value="4" id="activity3">
+            <label class="form-check-label" for="activity3">
+              Bowling
+            </label>
+          </div>
+          
+          <div class="text-center d-grid gap-2 col-3 mx-auto">
+          <button type="submit" id="submit-activity" class="btn btn-primary">Opret</button>
+          </div>
+           
+          <div class="text-center d-grid gap-1 col-3 mx-auto">
+            <button type="submit" class="btn">Annuller</button>
+            </div> 
+        </form>
+
+  </div>
+
+  <div id="footer" class="fixed-bottom"></div>
+
+
+  <script>
+
+    const thisForm = document.getElementById('add-shift-form');
+    thisForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(thisForm).entries()
+        const response = await fetch('http://localhost:8080/api/v1/shift', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+        });
+        const result = await response.json();
+        // here we can check the result and based on result we can redirect to new page or show error message
+        //window.location.href = "/see-shift.html"; // this will redirect to the new page
+    });
+
+
+  </script>  
+
+</body>
+</html>
