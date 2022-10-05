@@ -27,8 +27,6 @@ class Activity{
     }
 
     
-    
-    
     updateHtmlPage(){
 
         function compare(a, b) {
