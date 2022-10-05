@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/product.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header" class="fixed-top"></div> 
+  <div style="margin-bottom: 2%; margin-top: 25%; margin-left: 80%; position: fixed;"><button class="btn btn-small btn-info" onclick="window.location.href='http://127.0.0.1:5601/add-produkt.html'">Liste</button></div>
+ 
+  <div class="body-div" style="margin-left: 20%; margin-right: 20%; margin-top: 0%;">
+    <!-- write your own code here -->
+        <div style="margin-bottom: 2%; margin-top: 5%;"><button class="btn btn-small btn-info" onclick="window.location.href='http://127.0.0.1:5601/add-produkt.html'">TILFØJ PRODUKT</button></div>
+
+        <div id="product">
+
+        </div>
+  </div>
+
+  <div id="footer" class="fixed-bottom"></div>
+
+
+</body>
+</html>
