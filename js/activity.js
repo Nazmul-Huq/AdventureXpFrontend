@@ -27,8 +27,6 @@ class Activity{
     }
 
     
-    
-    
     updateHtmlPage(){
 
         function compare(a, b) {
@@ -45,8 +43,8 @@ class Activity{
         }
         var activityList = this.dataActivity.sort(compare);
         
-             var button = "<div style=\"margin-bottom: 2%;\"><button onclick=\"window.location.href='http://127.0.0.1:5601/add-activity.html'\">TILFØJ AKTIVITET</button></div>";
-            $("#addButton").append(button); 
+            var button = "<div style=\"margin-bottom: 2%;\"><button onclick=\"window.location.href='http://127.0.0.1:5601/add-activity.html'\">TILFØJ AKTIVITET</button></div>";
+            $("#addButton").append(button);
                     
             /* if(usercode == admin){
                 generate page with editbutton;

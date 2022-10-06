@@ -39,25 +39,8 @@
           <div class="mb-3">
             <label for="endTime" class="form-label">Aktivitet:</label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="activityId" value="1" id="activity1">
-            <label class="form-check-label" for="activity1">
-              Lasertag
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="activityId" value="3" id="activity2">
-            <label class="form-check-label" for="activity2">
-              Paintball
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="activityId" value="4" id="activity3">
-            <label class="form-check-label" for="activity3">
-              Bowling
-            </label>
-          </div>
-          
+          <div id="radio-for-activity">
+          </div>         
           <div class="text-center d-grid gap-2 col-3 mx-auto">
           <button type="submit" id="submit-shift" class="btn btn-primary">Opret</button>
           </div>
@@ -73,6 +56,32 @@
 
 
   <script>
+
+window.onload =  makeRadioForForm = async () => {
+      // call backend to get data
+      const response = await fetch( 'http://localhost:8080/api/v1/activity', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+      const allActivity = await response.json();
+
+      // loop over data and make div, table, etc.
+      for(let i = 0; i < allActivity.length; i++){
+        
+        let activityId = allActivity[i].activityId;
+        let activityName = allActivity[i].name;
+
+        var individualItem = 
+          "<div class=\"form-check\">" +
+            "<input class=\"form-check-input\" type=\"radio\" name=\"activityId\" value=\""+activityId+"\" id=\"activity"+activityId+"\">"+
+            "<label class=\"form-check-label\" for=\"activity"+activityId+"\">"+activityName+"</label>"; 
+          "</div>";
+        $('#radio-for-activity').append(individualItem) ;
+      }
+    }
 
     const thisForm = document.getElementById('add-shift-form');
     thisForm.addEventListener('submit', async function (e) {
