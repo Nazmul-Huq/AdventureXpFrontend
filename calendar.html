@@ -267,9 +267,8 @@ var data = args.e.data;
         filter_box.dispatchEvent(new KeyboardEvent('keyup', {'key': 'enter'}))}
 
     window.addEventListener('DOMContentLoaded', (event) => {
-        const requirements = [];
-        
-        fetch("http://localhost:8080/api/v1/requirements").then((response) => response.json()).then((data) => {requirements.push(data)});
+        const activities = [];
+
         fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {activities.push(data)
         
             function compare(a, b) {
@@ -304,10 +303,13 @@ var data = args.e.data;
             const node_2 = document.createTextNode(element.name);
             
 
-            const req_node = document.createTextNode("tekst");
-            requirements[0].forEach(element => {
+            //HER SKAL LAVES HOVER!!!
+
+            const req_node = document.createTextNode("Højest accepterede alkoholprocent: 0," + element.alcoholLevel + "%. "+ element.requirementsDescrip);
+
+            activities[0].forEach(element => {
                 if(element.requirementsDescrip = node_2){
-                    info_button.setAttribute('data-bs-title', req_node);
+                    info_button.setAttribute('data-bs-title', req_node.nodeValue);
                 }
             });
 
