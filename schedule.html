@@ -31,10 +31,8 @@
       <div class="mb-3 d-flex align-items-center d-grid gap-2" style="margin-left:35%">
         <label for="date" class="form-label font-weight-bold">Måned:</label>
         <input type="date" class="form-control" id="date" name="date" style="width:20%;">
-      </div>
-      <div class="col-6">
         <button type="submit" id="show-shift-form" class="btn btn-primary">Vis skema</button>
-      </div>    
+      </div> 
     </form>
 
     <table class="table table-bordered" style="width:50%; margin: auto;">
@@ -52,15 +50,12 @@
       </tbody>
     </table>
         
-        
-                   
-        
-
   </div>
 
   <div id="footer" class="fixed-bottom"></div>
 
   <script>
+
     const thisForm = document.getElementById('show-shift-form');
     thisForm.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -87,13 +82,36 @@
             "<td style=\"width:15% ;\">"+
               "<button  class=\"btn btn-primary\" onclick=\"window.location.href='/update-shift.html?id="+result[i].shiftId+"'\">Rediger</button>"+
             "</td>"+
-            "<td style=\"width:15% ;\"><button type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
+            "<td style=\"width:15% ;\"><button onclick=\"deleteActivityPopUP()\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
             "</tr>";
 
             $('#show-shift-body').append(individualItem) ;
         }
     });
 
+    function deleteActivityPopUP() {
+        var txt;
+        if (confirm("Er du sikker på du vil slette denne vagt?")) {
+          deleteActivity();
+        } else {
+          
+        }
+        document.getElementById("delete").innerHTML = txt;
+      }
+
+const deleteActivity = async () => {
+      // call backend to get data
+      const response = await fetch( endPointUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+        var individualActivity = await response.json();
+
+        window.location.href = "/schedule.html";
+    }
 
   </script>
 </body>
