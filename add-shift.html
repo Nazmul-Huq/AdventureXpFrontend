@@ -37,10 +37,11 @@
           </div>
   
           <div class="mb-3">
-            <label for="endTime" class="form-label">Aktivitet:</label>
+            <label for="activityDescription" class="form-label">Aktivitet Beskrivelse: </label>
+            <input required type="text" class="form-control" id="activityDescription" name="activityDescription">
           </div>
-          <div id="radio-for-activity">
-          </div>         
+
+                 
           <div class="text-center d-grid gap-2 col-3 mx-auto">
           <button type="submit" id="submit-shift" class="btn btn-primary">Opret</button>
           </div>
@@ -57,37 +58,9 @@
 
   <script>
 
-window.onload =  makeRadioForForm = async () => {
-      // call backend to get data
-      const response = await fetch( 'http://localhost:8080/api/v1/activity', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      // save data to a variable
-      const allActivity = await response.json();
-
-      // loop over data and make div, table, etc.
-      for(let i = 0; i < allActivity.length; i++){
-        
-        let activityId = allActivity[i].activityId;
-        let activityName = allActivity[i].name;
-
-        var individualItem = 
-          "<div class=\"form-check\">" +
-            "<input class=\"form-check-input\" type=\"radio\" name=\"activityId\" value=\""+activityId+"\" id=\"activity"+activityId+"\">"+
-            "<label class=\"form-check-label\" for=\"activity"+activityId+"\">"+activityName+"</label>"; 
-          "</div>";
-        $('#radio-for-activity').append(individualItem) ;
-      }
-    }
-
     const thisForm = document.getElementById('add-shift-form');
     thisForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        var time = document.getElementById("#startTime")
-        console.log(time)
         const formData = new FormData(thisForm).entries()
         const response = await fetch('http://localhost:8080/api/v1/shift', {
             method: 'POST',
