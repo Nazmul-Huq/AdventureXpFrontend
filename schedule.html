@@ -72,7 +72,6 @@
 
         for(let i = 0; i < result.length; i++){
 
-
           var individualItem = 
             "<tr>"+
             "<td>"+result[i].employeeName+"</td>"+
@@ -82,26 +81,30 @@
             "<td style=\"width:15% ;\">"+
               "<button  class=\"btn btn-primary\" onclick=\"window.location.href='/update-shift.html?id="+result[i].shiftId+"'\">Rediger</button>"+
             "</td>"+
-            "<td style=\"width:15% ;\"><button onclick=\"deleteActivityPopUP()\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
+            "<td style=\"width:15% ;\"><button onclick=\"deleteShiftPopUP("+result[i].shiftId+")\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
             "</tr>";
 
             $('#show-shift-body').append(individualItem) ;
         }
     });
 
-    function deleteActivityPopUP() {
+    var idToDelete;
+    function deleteShiftPopUP(id) {
         var txt;
-        if (confirm("Er du sikker på du vil slette denne vagt?")) {
-          deleteActivity();
+        if (confirm("Er du sikker på du vil slette denne vagt?")) { 
+          idToDelete = id; 
+          deleteShift();
         } else {
           
         }
-        document.getElementById("delete").innerHTML = txt;
+        //document.getElementById("delete").innerHTML = txt;
       }
 
-const deleteActivity = async () => {
+    const deleteShift = async () => {
+      console.log(idToDelete);   
+
       // call backend to get data
-      const response = await fetch( endPointUrl, {
+      const response = await fetch( 'http://localhost:8080/api/v1/shift/'+idToDelete, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -112,6 +115,50 @@ const deleteActivity = async () => {
 
         window.location.href = "/schedule.html";
     }
+
+    
+
+
+    const fillShfitForToday = async () => {
+        //e.preventDefault();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log(today);
+        const formData = new FormData()
+        formData.append("date", today)
+        const response = await fetch('http://localhost:8080/api/v1/shift/get-by-date', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+            //body: (today)
+        });
+        const result = await response.json();
+
+        $('#show-shift-body').empty();
+
+
+        for(let i = 0; i < result.length; i++){
+
+          var individualItem = 
+            "<tr>"+
+            "<td>"+result[i].employeeName+"</td>"+
+            "<td>"+result[i].startTimeString+"</td>"+
+            "<td>"+result[i].endTimeString+"</td>"+
+            "<td>"+result[i].activityDescription+"</td>"+
+            "<td style=\"width:15% ;\">"+
+              "<button  class=\"btn btn-primary\" onclick=\"window.location.href='/update-shift.html?id="+result[i].shiftId+"'\">Rediger</button>"+
+            "</td>"+
+            "<td style=\"width:15% ;\"><button onclick=\"deleteShiftPopUP("+result[i].shiftId+")\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
+            "</tr>";
+
+            $('#show-shift-body').append(individualItem) ;
+        }
+    };
+
+    window.load = fillShfitForToday();
 
   </script>
 </body>
