@@ -16,68 +16,150 @@
 
   <div id="header"></div>
   <div class="body-div">
-    <form style="font-weight: bold; margin: auto;" id="add-shift-form">
-      <div class="text-center">
-        <h1>Vagtskema</h1> 
-      </div>
-      <br>
-      <a href="add-shift.html">
-      <div class="col-6">
-        <button type="submit" id="submit-shift" class="btn btn-primary col-3" style="margin-left:88%">Opret vagt</button>
-       </div>
-      </a>
+    <div class="text-center">
+      <h1>Vagtskema</h1> 
+    </div>
     <br>
-        <div class="mb-3 d-flex align-items-center d-grid gap-2" style="margin-left:35%">
-            <label for="month" class="form-label font-weight-bold">Måned:</label>
-            <input type="date" class="form-control" id="month" style="width:20%;">
-        <div class="col-6">
-            <button type="submit" id="submit-shift" class="btn btn-primary">Vis skema</button>
-        </div>
-        </div>
+    <a href="add-shift.html">
+      <div class="col-6">
+        <button class="btn btn-primary col-3" style="margin-left:88%">Opret vagt</button>
+      </div>
+    </a>
+    
+    <form style="font-weight: bold; margin: auto;" id="show-shift-form">    
+      <br> 
+      <div class="mb-3 d-flex align-items-center d-grid gap-2" style="margin-left:35%">
+        <label for="date" class="form-label font-weight-bold">Måned:</label>
+        <input type="date" class="form-control" id="date" name="date" style="width:20%;">
+        <button type="submit" id="show-shift-form" class="btn btn-primary">Vis skema</button>
+      </div> 
+    </form>
 
-        <table class="table table-bordered" style="width:50%; margin: auto;">
-            <thead>
-              <tr>
-                <th scope="col">Navn</th>
-                <th scope="col">Start</th>
-                <th scope="col">Slut</th>
-                <th scope="col">Opgave</th>
-                <th scope="col">Rediger</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="width:15% ;"><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><button type="submit" id="submit-shift" class="btn btn-primary">Rediger</button></td>
-              </tr>
-              
-            </tbody>
-          </table>
+    <table class="table table-bordered" style="width:50%; margin: auto;">
+      <thead>
+        <tr>
+          <th scope="col">Navn</th>
+          <th scope="col">Start</th>
+          <th scope="col">Slut</th>
+          <th scope="col">Opgave</th>
+          <th scope="col">Rediger</th>
+          <th scope="col">Slet</th>
+        </tr>
+      </thead>
+      <tbody id="show-shift-body">
+      </tbody>
+    </table>
         
-        
-                   
-        </form>
-
   </div>
 
   <div id="footer" class="fixed-bottom"></div>
 
+  <script>
+
+    const thisForm = document.getElementById('show-shift-form');
+    thisForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(thisForm).entries()
+        const response = await fetch('http://localhost:8080/api/v1/shift/get-by-date', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+        });
+        const result = await response.json();
+
+        $('#show-shift-body').empty();
+
+
+        for(let i = 0; i < result.length; i++){
+
+          var individualItem = 
+            "<tr>"+
+            "<td>"+result[i].employeeName+"</td>"+
+            "<td>"+result[i].startTimeString+"</td>"+
+            "<td>"+result[i].endTimeString+"</td>"+
+            "<td>"+result[i].activityDescription+"</td>"+
+            "<td style=\"width:15% ;\">"+
+              "<button  class=\"btn btn-primary\" onclick=\"window.location.href='/update-shift.html?id="+result[i].shiftId+"'\">Rediger</button>"+
+            "</td>"+
+            "<td style=\"width:15% ;\"><button onclick=\"deleteShiftPopUP("+result[i].shiftId+")\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
+            "</tr>";
+
+            $('#show-shift-body').append(individualItem) ;
+        }
+    });
+
+    var idToDelete;
+    function deleteShiftPopUP(id) {
+        var txt;
+        if (confirm("Er du sikker på du vil slette denne vagt?")) { 
+          idToDelete = id; 
+          deleteShift();
+        } else {
+          
+        }
+        //document.getElementById("delete").innerHTML = txt;
+      }
+
+    const deleteShift = async () => {
+      console.log(idToDelete);   
+
+      // call backend to get data
+      const response = await fetch( 'http://localhost:8080/api/v1/shift/'+idToDelete, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+        var individualActivity = await response.json();
+
+        window.location.href = "/schedule.html";
+    }
+
+    
+
+
+    const fillShfitForToday = async () => {
+        //e.preventDefault();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log(today);
+        const formData = new FormData()
+        formData.append("date", today)
+        const response = await fetch('http://localhost:8080/api/v1/shift/get-by-date', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(Object.fromEntries(formData))
+            //body: (today)
+        });
+        const result = await response.json();
+
+        $('#show-shift-body').empty();
+
+
+        for(let i = 0; i < result.length; i++){
+
+          var individualItem = 
+            "<tr>"+
+            "<td>"+result[i].employeeName+"</td>"+
+            "<td>"+result[i].startTimeString+"</td>"+
+            "<td>"+result[i].endTimeString+"</td>"+
+            "<td>"+result[i].activityDescription+"</td>"+
+            "<td style=\"width:15% ;\">"+
+              "<button  class=\"btn btn-primary\" onclick=\"window.location.href='/update-shift.html?id="+result[i].shiftId+"'\">Rediger</button>"+
+            "</td>"+
+            "<td style=\"width:15% ;\"><button onclick=\"deleteShiftPopUP("+result[i].shiftId+")\" type=\"submit\" id=\"submit-shift\" class=\"btn btn-primary\">Slet</button></td>"
+            "</tr>";
+
+            $('#show-shift-body').append(individualItem) ;
+        }
+    };
+
+    window.load = fillShfitForToday();
+
+  </script>
 </body>
 </html>
