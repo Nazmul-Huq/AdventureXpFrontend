@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>Kalender - AdventureXP </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-            crossorigin="anonymous"
-            
-    />
-    <script
-			  src="https://code.jquery.com/jquery-3.6.1.min.js"
-			  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-			  crossorigin="anonymous"></script>
-              <script>
-                $(function(){
-                  $("#header").load("header.html");
-                  $("#footer").load("footer.html");
-                });
-          
-              </script>
-              <script src="js/activity.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#header").load("header.html");
+            $("#footer").load("footer.html");
+        });
+
+    </script>
+    <script src="js/activity.js"></script>
 
     <link href="style/calendar/main.css" rel="stylesheet" type="text/css">
     <link href="style/calendar/icons/style.css" rel="stylesheet" type="text/css">
@@ -32,257 +26,301 @@
     <div id="header"></div>
     <div class="body-div">
 
-<div class="main" style="display: flex;">
+        <div class="main" style="display: flex;">
 
-    <div style="margin-right: 10px;">
-        <div id="nav"></div>
-        <div id="info" style="border:1px solid rgb(255, 255, 255)">
+            <div style="margin-right: 10px;">
+                <div id="nav"></div>
+                <div id="info" style="border:1px solid rgb(255, 255, 255)">
+                </div>
+            </div>
+
+            <div style="flex-grow: 1">
+                <p>
+                    <input id="filter" placeholder="Søg her">
+                <p id="links"><a href="#" id="clear"><button
+                            class="btn btn-small btn-info text-dark m-2">Clear</button></a></p>
+
+                </p>
+                <div id="dp"></div>
+            </div>
+
         </div>
+        <div id="footer"></div>
     </div>
 
-    <div style="flex-grow: 1">
-        <p>
-            <input id="filter" placeholder="Søg her">
-            <p id="links"><a href="#" id="clear"><button class="btn btn-small btn-info text-dark m-2">Clear</button></a></p>
+    <!-- DayPilot library -->
+    <script src="js/daypilot-all.min.js"></script>
 
-        </p>
-        <div id="dp"></div>
-    </div>
+    <script>
+        let activities = [];
 
-</div>
-<div id="footer"></div>
-</div>
+        const nav = new DayPilot.Navigator("nav");
+        nav.showMonths = 1;
+        nav.skipMonths = 1;
+        nav.selectMode = "week";
+        nav.locale = "da-dk"
+        nav.onTimeRangeSelected = (args) => {
+            dp.startDate = args.day;
+            dp.update();
+            dp.events.load("http://localhost:8080/api/v1/events");
+        };
+        nav.init();
 
-<!-- DayPilot library -->
-<script src="js/daypilot-all.min.js"></script>
+        const dp = new DayPilot.Calendar("dp");
+        var elements = {
+            filter: document.querySelector("#filter"),
+            clear: document.querySelector("#clear"),
+        };
 
-<script>
-const activities = [];
+        elements.filter.addEventListener("keyup", function () {
+            var query = this.value;
+            dp.events.filter(query); // see dp.onEventFilter
+        });
 
-    const nav = new DayPilot.Navigator("nav");
-    nav.showMonths = 1;
-    nav.skipMonths = 1;
-    nav.selectMode = "week";
-    nav.locale = "da-dk"
-    nav.onTimeRangeSelected = (args) => {
-        dp.startDate = args.day;
-        dp.update();
-        dp.events.load("http://localhost:8080/api/v1/events");
-    };
-    nav.init();
-
-    const dp = new DayPilot.Calendar("dp");
-    var elements = {
-    filter: document.querySelector("#filter"),
-    clear: document.querySelector("#clear"),
-};
-
-elements.filter.addEventListener("keyup", function() {
-    var query = this.value;
-    dp.events.filter(query); // see dp.onEventFilter
-});
-
-elements.clear.addEventListener("click", function(ev) {
-    ev.preventDefault();
-    elements.filter.value = "";
-    dp.events.filter(null);
-});
-    dp.viewType = "Week";
-    dp.locale = "da-dk";
-    dp.onTimeRangeSelected = function (args) {
-        DayPilot.Modal.prompt("Oprettet en ny booking:", "Event").then(function (modal) {
-            var dp = args.control;
-            dp.clearSelection();
-            if (!modal.result) {
-                return;
-            }
+        elements.clear.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            elements.filter.value = "";
+            dp.events.filter(null);
+        });
+        dp.viewType = "Week";
+        dp.locale = "da-dk";
+        dp.onTimeRangeSelected = function (args) {
+            DayPilot.Modal.prompt("Oprettet en ny booking:", "Event").then(function (modal) {
+                var dp = args.control;
+                dp.clearSelection();
+                if (!modal.result) {
+                    return;
+                }
+                var params = {
+                    start: args.start.toString(),
+                    end: args.end.toString(),
+                    text: modal.result
+                };
+                DayPilot.Http.ajax({
+                    url: 'http://localhost:8080/api/v1/events/create',
+                    data: params,
+                    success: function (ajax) {
+                        var data = ajax.data;
+                        dp.events.add(new DayPilot.Event(data));
+                        dp.message("Booking oprettet");
+                    }
+                });
+            });
+        };
+        dp.onEventMove = function (args) {
             var params = {
-                start: args.start.toString(),
-                end: args.end.toString(),
-                text: modal.result
+                id: args.e.id(),
+                start: args.newStart.toString(),
+                end: args.newEnd.toString()
             };
             DayPilot.Http.ajax({
-                url: 'http://localhost:8080/api/v1/events/create',
+                url: 'http://localhost:8080/api/v1/events/move',
                 data: params,
                 success: function (ajax) {
-                    var data = ajax.data;
-                    dp.events.add(new DayPilot.Event(data));
-                    dp.message("Booking oprettet");
+                    dp.message("Booking rykket");
                 }
             });
-        });
-    };
-    dp.onEventMove = function (args) {
-        var params = {
-            id: args.e.id(),
-            start: args.newStart.toString(),
-            end: args.newEnd.toString()
         };
-        DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/v1/events/move',
-            data: params,
-            success: function (ajax) {
-                dp.message("Booking rykket");
+
+        //kan man evt. bare bruge activities arrayet der bliver lavet i 270? 
+        dp.onEventClick = function (args) {
+            const event = args.e
+            const types = activities.map((activity) => ({ name: activity.name, id: activity.activityId }))
+           
+            const form = [{
+                name: "Opdater booking",
+                id: "text"
+            },
+            {
+                name: "Vælg aktivitet",
+                id: "activityId",
+                type: "select",
+                options: types
+            },
+            {
+                name: "Medarbejder",
+                id: "medarbejder"
+            },
+
+            ];
+
+            var data = event.data;
+            if (event.data.activity !== null && event.data.activity !== undefined) {
+                data.activityId = event.data.activity.id
+            } else {
+                data.activityId = 0
             }
-        });
-    };
-
-    dp.onEventClick = function (args) {
-        const types = [];
-        for (let i = 0; i < activities[0].length; i++) {
-            const element = activities[0][i];
-            types.push({name: element.name, id: element.name});  
-        }
-
-
-const form = [
-  {name: "Opdater booking", id: "text"},
-  {name: "Vælg aktivitet", id: "type", type: "select", options: types},
-  {name: "Medarbejder", id: "employee"},
-
-];
-
-var data = args.e.data;
-        DayPilot.Modal.form(form, data).then(function(modal) {
-            if (modal.canceled) {
-                return;
-            }
+      
+            DayPilot.Modal.form(form, data).then(function (modal) {
+                if (modal.canceled) {
+                    return;
+                }
+                
             DayPilot.Http.ajax({
-                url: 'http://localhost:8080/api/v1/events/update',
-                data: modal.result,
+                    url: 'http://localhost:8080/api/v1/events/update',
+                    data: modal.result,
+                    success: function (ajax) {
+                        event.data.medarbejder = ajax.data.medarbejder
+                        event.data.text = ajax.data.text
+                        event.data.activity = ajax.data.activity
+                        dp.events.update(event);
+                        dp.message("Booking tekst opdateret");
+                    }
+                });
+            
+            });
+        };
+        dp.eventDeleteHandling = "Update";
+        dp.onEventDelete = args => {
+            if (!confirm("Er du sikker på at du vil fjerne denne booking?")) {
+                args.preventDefault();
+            }
+        };
+        dp.onEventDeleted = args => {
+            // API call to delete the event on the server side
+            // ...
+            DayPilot.Http.ajax({
+                url: 'http://localhost:8080/api/v1/events/delete',
+                data: args.e.data,
                 success: function (ajax) {
-                    dp.events.update(ajax.data);
-                    dp.message("Booking tekst opdateret");
+                    dp.message("Booking slettet");
                 }
             });
-        });
-    };
-    dp.eventDeleteHandling = "Update";
-    dp.onEventDelete = args => {
-        if (!confirm("Er du sikker på at du vil fjerne denne booking?")){
-            args.preventDefault();
-        }
-    };
-    dp.onEventDeleted = args => {
-        // API call to delete the event on the server side
-        // ...
-        DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/v1/events/delete',
-            data: args.e.data,
-            success: function (ajax) {
-                dp.message("Booking slettet");
-            }
-        });
-    };
-
-    dp.onEventResize = function (args) {
-        var params = {
-            id: args.e.id(),
-            start: args.newStart.toString(),
-            end: args.newEnd.toString()
         };
-        DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/v1/events/move',
-            data: params,
-            success: function (ajax) {
-                dp.message("Bookingtid rykket");
-            }
-        });
-    };
-    dp.onBeforeEventRender = function(args) {
-        args.data.barColor = args.data.color;
-        args.data.areas = [
-            { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;"}
-        ];
-    };
-    dp.onEventFilter = function(args) {
-    var events = dp.events.list.filter(function(data) {
-        var start = new DayPilot.Date(data.start);
-        var end = new DayPilot.Date(data.end);
-        return data.resource === args.e.resource() && DayPilot.Util.overlaps(start, end, args.e.start(), args.e.end());
-    });
 
-    var textFound = events.some(function(e) {
-        return e.text.toUpperCase().indexOf(args.filter.toUpperCase()) > -1;
-    });
-
-    if (!textFound) {
-        args.visible = false;
-    }
-};
-
-    dp.contextMenu = new DayPilot.Menu({
-        items: [
-            {
-                text: "Blå",
-                icon: "icon icon-blue",
-                color: "#1066a8",
-                onClick: function(args) { updateColor(args.source, args.item.color); }
-            },
-            {
-                text: "Grøn",
-                icon: "icon icon-green",
-                color: "#6aa84f",
-                onClick: function(args) { updateColor(args.source, args.item.color); }
-            },
-            {
-                text: "Gul",
-                icon: "icon icon-yellow",
-                color: "#f1c232",
-                onClick: function(args) { updateColor(args.source, args.item.color); }
-            },
-            {
-                text: "Rød",
-                icon: "icon icon-red",
-                color: "#cc0000",
-                onClick: function(args) { updateColor(args.source, args.item.color); }
-            },
-
-        ]
-    });
-    dp.init();
-
-    dp.events.load("http://localhost:8080/api/v1/events");
-
-
-
-    function updateColor(e, color) {
-        var params = {
-            id: e.id(),
-            color: color
+        dp.onEventResize = function (args) {
+            var params = {
+                id: args.e.id(),
+                start: args.newStart.toString(),
+                end: args.newEnd.toString()
+            };
+            DayPilot.Http.ajax({
+                url: 'http://localhost:8080/api/v1/events/move',
+                data: params,
+                success: function (ajax) {
+                    dp.message("Bookingtid rykket");
+                }
+            });
         };
-        DayPilot.Http.ajax({
-            url: 'http://localhost:8080/api/v1/events/setColor',
-            data: params,
-            success: function (ajax) {
-                e.data.color = color;
-                dp.events.update(e);
-                dp.message("Farve opdateret");
-            }
-        });
-    }
-    function search(id){
-        const filter_box = document.getElementById('filter'); 
-        filter_box.value = id.id; 
-        filter_box.dispatchEvent(new KeyboardEvent('keyup', {'key': 'enter'}))}
-
-    window.addEventListener('DOMContentLoaded', (event) => {
-        const activities = [];
-
-        fetch("http://localhost:8080/api/v1/activity").then((response) => response.json()).then((data) => {activities.push(data)
         
-            function compare(a, b) {
-            const nameA = a.name;
-            const nameB = b.name;
-            let comparison = 0;
-            if(nameA > nameB){
-                comparison = 1;
-            }else if(nameA < nameB){
-                comparison = -1;
-            }
-            return comparison;
+        dp.onBeforeEventRender = function (args) {
+            args.data.barColor = args.data.color;
+            args.data.areas = [
+                { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;" }
+            ];
             
+            if (args.data.activity !== undefined && args.data.activity !== null) { 
+                args.data.html =
+                `
+                        <div>
+                            <p>${args.data.text}</p>
+                            <p>${args.data.activity.name}</p>
+                            <p>${args.data.medarbejder}</p>
+                            </div>
+                        `
+            }else{
+                args.data.html = `
+                <div>
+                    <p>${args.data.text}</p>
+                </div>
+                `
+            }
+            
+        };
+        dp.onEventFilter = function (args) {
+            var events = dp.events.list.filter(function (data) {
+                var start = new DayPilot.Date(data.start);
+                var end = new DayPilot.Date(data.end);
+                return data.resource === args.e.resource() && DayPilot.Util.overlaps(start, end, args.e.start(), args.e.end());
+            });
+
+            var textFound = events.some(function (e) {
+                return e.text.toUpperCase().indexOf(args.filter.toUpperCase()) > -1;
+            });
+
+            if (!textFound) {
+                args.visible = false;
+            }
+        };
+
+        dp.contextMenu = new DayPilot.Menu({
+            items: [
+                {
+                    text: "Blå",
+                    icon: "icon icon-blue",
+                    color: "#1066a8",
+                    onClick: function (args) { updateColor(args.source, args.item.color); }
+                },
+                {
+                    text: "Grøn",
+                    icon: "icon icon-green",
+                    color: "#6aa84f",
+                    onClick: function (args) { updateColor(args.source, args.item.color); }
+                },
+                {
+                    text: "Gul",
+                    icon: "icon icon-yellow",
+                    color: "#f1c232",
+                    onClick: function (args) { updateColor(args.source, args.item.color); }
+                },
+                {
+                    text: "Rød",
+                    icon: "icon icon-red",
+                    color: "#cc0000",
+                    onClick: function (args) { updateColor(args.source, args.item.color); }
+                },
+
+            ]
+        });
+        dp.init();
+
+        dp.events.load("http://localhost:8080/api/v1/events");
+
+
+
+        function updateColor(e, color) {
+            var params = {
+                id: e.id(),
+                color: color
+            };
+            DayPilot.Http.ajax({
+                url: 'http://localhost:8080/api/v1/events/setColor',
+                data: params,
+                success: function (ajax) {
+                    e.data.color = color;
+                    dp.events.update(e);
+                    dp.message("Farve opdateret");
+                }
+            });
         }
+        function search(id) {
+            const filter_box = document.getElementById('filter');
+            filter_box.value = id.id;
+            filter_box.dispatchEvent(new KeyboardEvent('keyup', { 'key': 'enter' }))
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+
+
+            fetch("http://localhost:8080/api/v1/activity")
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("data: ")
+                    console.log(data)
+                    activities = data;
+
+                    function compare(a, b) {
+                        const nameA = a.name;
+                        const nameB = b.name;
+                        let comparison = 0;
+                        if (nameA > nameB) {
+                            comparison = 1;
+                        } else if (nameA < nameB) {
+                            comparison = -1;
+                        }
+                        return comparison;
+
+                    }
 
             activities[0].sort(compare).forEach(element => {
             const button = document.createElement("button");
@@ -302,35 +340,36 @@ var data = args.e.data;
             info_button.setAttribute('data-bs-placement', 'right');
             const node_2 = document.createTextNode(element.name);
             
-            const req_node = document.createTextNode("Alkohol: 0," + element.alcoholLevel + "%. " + "<br>Max vægt: " + element.maxWeight + " Min alder: " + element.minimumAge + " Max alder: " + element.maximumAge + " Mini højde: " + element.minimumHeight + " Max højde: " + element.maximumHeight + " Min deltagere: " + element.minimumAttendants + " Max deltagere: " + element.maximumAttendants);
+
+            const req_node = document.createTextNode("Højest accepterede alkoholprocent: 0," + element.alcoholLevel + "%. "+ element.requirementsDescrip);
 
             activities[0].forEach(element => {
+                if(element.requirementsDescrip = node_2){
                     info_button.setAttribute('data-bs-title', req_node.nodeValue);
                 }
-            );
+            });
 
-            const brule = document.createElement("br");
-            info_button.appendChild(node_2);
-            info_element.append(info_button);
-            info_element.append(brule)
-            
+                        const brule = document.createElement("br");
+                        info_button.appendChild(node_2);
+                        info_element.append(info_button);
+                        info_element.append(brule)
+
+                    });
+
+                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                });
+
+
         });
-        
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    });
-    
-    
-});
 
 
-</script>
+    </script>
 
-<script
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"
-></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>
