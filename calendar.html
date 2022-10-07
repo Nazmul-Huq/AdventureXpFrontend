@@ -341,13 +341,15 @@
             const node_2 = document.createTextNode(element.name);
             
 
-            const req_node = document.createTextNode("Højest accepterede alkoholprocent: 0," + element.alcoholLevel + "%. "+ element.requirementsDescrip);
+            const req_node = document.createTextNode("Alkohol: 0," + element.alcoholLevel + "%. " + ", Max vægt: " + element.maxWeight + ", Min alder: " + element.minimumAge + ", Max alder: " + element.maximumAge + ", Min. højde: " + element.minimumHeight + ", Max højde: " + element.maximumHeight + ", Min deltagere: " + element.minimumAttendants + ", Max deltagere: " + element.maximumAttendants + ".");
 
             activities.forEach(element => {
                 if(element.requirementsDescrip = node_2){
                     info_button.setAttribute('data-bs-title', req_node.nodeValue);
                 }
             });
+            
+
 
                         const brule = document.createElement("br");
                         info_button.appendChild(node_2);
