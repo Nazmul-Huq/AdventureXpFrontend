@@ -322,7 +322,7 @@
 
                     }
 
-            activities[0].sort(compare).forEach(element => {
+            activities.sort(compare).forEach(element => {
             const button = document.createElement("button");
             const node_1 = document.createTextNode(element.name);
             button.setAttribute('id', element.name)
@@ -343,7 +343,7 @@
 
             const req_node = document.createTextNode("Højest accepterede alkoholprocent: 0," + element.alcoholLevel + "%. "+ element.requirementsDescrip);
 
-            activities[0].forEach(element => {
+            activities.forEach(element => {
                 if(element.requirementsDescrip = node_2){
                     info_button.setAttribute('data-bs-title', req_node.nodeValue);
                 }
