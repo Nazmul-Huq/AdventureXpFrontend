@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="js/product.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header" class="fixed-top"></div>   
+  
+  <div class="body-div d-flex justify-content-around flex-row justify-content-evenly">
+    <!-- write your own code here -->
+        <div style="margin-bottom: 2%; margin-top: 5%; margin-right: 90%; position: fixed;"><button class="btn btn-small btn-info" onclick="window.location.href='http://127.0.0.1:5601/add-product.html'">TILFØJ PRODUKT</button></div>
+<div class="d-flex flex-row justify-content-center">
+        <div id="product" class="flex-row container-fluid">
+          
+        </div>
+</div>
+
+<div class="panel panel-default" id="calculator" style="position: fixed; margin-bottom: 2%; margin-top: 5%; margin-left: 80%;">
+  <div class="panel-heading text-center">
+Regnemaskine
+</div>
+<div class="panel-body">
+  <table class="table">
+    <thead>
+    <tr>
+    <th scope="col" class="border-0 bg-light">
+    <div>Produkt</div>
+    </th>
+    <th scope="col" class="border-0 bg-light">
+    <div>Pris</div>
+    </th>
+    <th scope="col" class="border-0 bg-light">
+    <div>Slet</div>
+    </th>
+
+    </tr>
+    </thead>
+    <tbody id="calProduct">
+    
+    </tbody>
+    </table>
+</div>
+<div class="panel-footer">
+
+</div>
+</div>
+
+  </div>
+
+
+  <div id="footer" class="fixed-bottom"></div>
+
+
+</body>
+</html>

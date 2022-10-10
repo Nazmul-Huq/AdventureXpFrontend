@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+    <script>
+      $(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+      });
+
+    </script>
+
+</head>
+<body>
+
+  <div id="header"></div>
+  <div class="body-div">
+    <form style="margin-left:25%; width: 50%; font-weight: bold;" id="update-product-form">
+      <div class="text-center">
+        <h1>Opdater produkt</h1>
+        <br>
+        <br>
+      </div>
+      <div class="mb-3">
+        <input type="hidden" id="productId" name="productId">
+      </div>
+      
+      <div class="mb-3">
+          <label for="name" class="form-label font-weight-bold">Produkt navn:</label>
+          <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Pris:</label>
+        <input type="number" class="form-control" id="price" name="price">
+      </div>
+
+          
+      <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+        <button type="submit" id="update-product" class="btn btn-primary" style="width:50% ;">Gem</button>
+      </div>
+          <!-- <div class="text-center d-grid gap-1 col-3 mx-auto">
+            <button onclick="window.location.href='http://127.0.0.1:5601/product.html'" class="btn">Annuller</button>
+            </div>  -->
+    </form>
+
+    <br>
+    <div class="text-center d-grid gap-3 col-5 mx-auto d-flex align-items-center justify-content-evenly">
+      <button onclick="deleteProductPopUP()" type="submit" class="btn btn-danger" style="width:25% ;">Slet</button> 
+    </div>
+    
+  </div>
+
+  <div id="footer" class="fixed-bottom"></div>
+
+  <script>
+
+      function deleteProductPopUP() {
+        var txt;
+        if (confirm("Er du sikker på du vil slette dette produkt?")) {
+          deleteProduct();
+        } else {
+          
+        }
+        document.getElementById("delete").innerHTML = txt;
+      }
+
+
+
+
+    var endPointUrl;    
+    
+    window.onload = function fillTheProductForm(){
+      getIdFromUrl(); // make the endpoint url
+      getIndividualProductAndFillForm(); // get data from backend
+    }
+
+    //get the id from url and make the url for rest cal
+    function getIdFromUrl(){
+      const queryString = window.location.search;
+      console.log(queryString)
+      const urlParams = new URLSearchParams(queryString);
+      console.log(queryString)
+      const id = urlParams.get('id');
+      console.log(id)
+      endPointUrl = 'http://localhost:8080/api/v1/product/'+id;
+      console.log(endPointUrl);
+    }
+
+    const deleteProduct = async () => {
+      // call backend to get data
+      const response = await fetch(endPointUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+        var individualProduct = await response.json();
+
+        window.location.href = "/product.html";
+    }
+
+
+    // get data from backend based on "endPointUrl" and fill the form
+    const getIndividualProductAndFillForm = async () => {
+      // call backend to get data
+      const response = await fetch(endPointUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // save data to a variable
+       var individualProduct = await response.json();  
+       // fill the form
+       let productName = individualProduct.name;
+       console.log(productName)
+       document.getElementById('productId').value = individualProduct.Id;
+       document.getElementById('name').value = productName;
+       document.getElementById('price').value = individualProduct.price;
+       
+    }
+  
+    
+    // form submission start here
+     const thisForm = document.getElementById('update-product-form');
+     thisForm.addEventListener('submit', async function (e) {
+         e.preventDefault();
+         const formData = new FormData(thisForm).entries()
+         const response = await fetch('http://localhost:8080/api/v1/product/', {
+             method: 'PUT',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify(Object.fromEntries(formData))
+         });
+         const result = await response.json();
+         // here we can check the result and based on result we can redirect to new page or show error message
+         window.location.href = "/product.html"; // this will redirect to the new page
+    
+         console.log(result)
+     });
+     //form submission ends here
+    
+  </script>  
+
+
+</body>
+</html>

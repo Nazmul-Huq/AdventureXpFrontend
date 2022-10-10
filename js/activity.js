@@ -2,13 +2,13 @@ class Activity{
 
     endpointUrlActivity = "http://localhost:8080/api/v1/activity";
 
-    /* endpointUrlSecurity = "http://localhost:8080/api/v1/security"; */
+    
     
 
-    constructor(dataActivity/* ,dataSecurity */){
+    constructor(dataActivity){
         this.dataActivity = dataActivity;
 
-        /* this.endpointUrlSecurity = dataSecurity; */
+        console.log("yo")
 
         this.fetchData();
     }
@@ -16,11 +16,9 @@ class Activity{
     async fetchData(){
         let responseA = await fetch(this.endpointUrlActivity);
         
-        /* let responseS = await fetch(this.endpointUrlSecurity); */
 
         this.dataActivity = await responseA.json();
         
-        /* this.dataSecurity = await responseS.json(); */
 
         this.updateHtmlPage();
     
