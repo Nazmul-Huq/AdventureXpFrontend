@@ -24,54 +24,32 @@
       crossorigin="anonymous"
     />
     <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
-  </head>
-  <nav class="p-4 bg-dark"></nav>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js%22%3E"> </script>
+</head>
+  <nav class= "p-4 bg-dark"></nav>
   <body>
-    <div class="container text-center m-5 p-5">
-      <form class="form-signin">
-        <img
-          class="mb-4"
-          src="loginAdventure.png"
-          alt
-          width="200"
-          height="150"
-        />
-
-        <h1 class="h-3 mb-3 fw-normal text-warning">Login</h1>
-
-        <label for="inputUsername" class="sr-only"></label>
-
-        <input
-          class="border border-2 border-warning rounded-3"
-          type="text"
-          id="inputUsername"
-          placeholder="Brugernavn"
-          required
-          autofocus
-        />
-      </form>
-
-      <br />
-      <label for="inputPassword" class="sr-only"></label>
-
-      <input
-        class="border border-2 border-warning rounded-3"
-        type="password"
-        id="inputPassword"
-        placeholder="Password"
-        required
-      />
-      <br />
-      <br />
-
-      <button
-        class="btn btn-small btn-warning text-dark border-dark"
-        type="submit"
-      >
-        Login
-      </button>
-    </div>
-    <script src="popup.js"></script>
+      <form id="form" method="post">
+        <input name="username" type="text">
+        <input name="password "type="password">
+        <button type="submit">Submit</button>
+        </form> 
+     
   </body>
+  <script>
+         const thisForm = document.getElementById('form');
+        thisForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData(thisForm).entries()
+            const response = await fetch('http://localhost:8080/api/v1/login.html', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            })
+            .then(res=> res.json())
+            .then(data=>console.log(data))
+            .catch(error=> console.log(error));
+            // here we can check the result and based on result we can redirect to new page or show error message
+            // this will redirect to the new page
+        });
+        </script>
 </html>
